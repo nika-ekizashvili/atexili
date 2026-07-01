@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500;600;700;800;900&family=Noto+Serif+Georgian:wght@600;700&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #EFE7DE; font-family:'Noto Sans Georgian',sans-serif; }
+</style>
+</helmet>
+
+<div style="padding:56px 48px 120px;">
+  <div style="text-align:center; margin-bottom:44px;">
+    <div style="font-family:'Space Mono',monospace; font-size:13px; color:#A5917D; letter-spacing:0.06em;">APP SCREENS · HOW IT WORKS</div>
+    <h1 style="font-family:'Noto Serif Georgian',serif; font-size:44px; font-weight:700; margin:8px 0 0; color:#3B1E12;">როგორ მუშაობს</h1>
+    <p style="color:#7F6C58; font-size:16px; margin:10px 0 0;">3 ბარათი, რომელიც ხსნის მთავარ იდეას — swipe-ის ერთეული ცხოველია, არა ადამიანი.</p>
+  </div>
+
+  <div style="display:flex; flex-wrap:wrap; gap:44px; justify-content:center; align-items:flex-start;">
+
+    <!-- ============ SLIDE 1 · PROFILE = ANIMAL ============ -->
+    <div id="in1" style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+      <x-import component-from-global-scope="IOSDevice" from="./frames/ios-frame.jsx" hint-size="402px,874px">
+        <div style="min-height:874px; background:radial-gradient(120% 50% at 50% 0%, #FADFD2 0%, #FBF5EF 44%); font-family:'Noto Sans Georgian',sans-serif; padding:70px 28px 44px; display:flex; flex-direction:column;">
+          <div style="display:flex; justify-content:flex-end; height:30px;"><span style="font-size:14px; font-weight:700; color:#A5917D;">გამოტოვება</span></div>
+
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:40px;">
+            <!-- illustration -->
+            <div style="position:relative;">
+              <div style="width:180px; border-radius:24px; overflow:hidden; background:#fff; box-shadow:0 24px 48px -18px rgba(82,31,18,0.35); transform:rotate(-4deg);">
+                <div style="height:180px; background:linear-gradient(135deg,#F5BFA6,#E8A93C); display:flex; align-items:center; justify-content:center; font-size:80px;">🐈</div>
+                <div style="padding:12px 14px;"><div style="font-weight:800; font-size:18px; color:#2E2620;">ლუნა, 2</div><div style="font-size:12px; color:#7F6C58; font-weight:600;">კატა · ბრიტანული</div></div>
+              </div>
+              <div style="position:absolute; top:-14px; right:-26px; background:#E2643B; color:#fff; font-weight:800; font-size:13px; padding:8px 14px; border-radius:999px; transform:rotate(6deg); box-shadow:0 8px 18px -8px rgba(226,100,59,0.6);">= ცხოველი 🐾</div>
+            </div>
+
+            <div style="text-align:center;">
+              <h2 style="font-size:29px; font-weight:800; color:#2E2620; margin:0; line-height:1.2;">პროფილი შენი ცხოველია</h2>
+              <p style="font-size:16px; color:#5F4F3E; margin:14px 0 0; font-weight:500; line-height:1.55; max-width:280px;">ატეხილზე ბარათი წარმოადგენს <b>ცხოველს</b> — არა შენ. შენ ხარ მფლობელი, რომელიც მას წარადგენს.</p>
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:center; gap:8px; margin-bottom:24px;">
+            <span style="width:26px; height:8px; border-radius:999px; background:#E2643B;"></span>
+            <span style="width:8px; height:8px; border-radius:999px; background:#DDCFC0;"></span>
+            <span style="width:8px; height:8px; border-radius:999px; background:#DDCFC0;"></span>
+          </div>
+          <button style="font-family:inherit; height:54px; border:none; border-radius:16px; background:#E2643B; color:#fff; font-weight:700; font-size:17px; cursor:pointer; box-shadow:0 10px 20px -8px rgba(226,100,59,0.6);">გაგრძელება</button>
+        </div>
+      </x-import>
+      <span style="font-family:'Space Mono',monospace; font-size:12px; color:#8A7866;">1 · პროფილი = ცხოველი</span>
+    </div>
+
+    <!-- ============ SLIDE 2 · YOU SWIPE ON ITS BEHALF ============ -->
+    <div id="in2" style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+      <x-import component-from-global-scope="IOSDevice" from="./frames/ios-frame.jsx" hint-size="402px,874px">
+        <div style="min-height:874px; background:radial-gradient(120% 50% at 50% 0%, #FADFD2 0%, #FBF5EF 44%); font-family:'Noto Sans Georgian',sans-serif; padding:70px 28px 44px; display:flex; flex-direction:column;">
+          <div style="display:flex; justify-content:flex-end; height:30px;"><span style="font-size:14px; font-weight:700; color:#A5917D;">გამოტოვება</span></div>
+
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:40px;">
+            <!-- illustration: card with stamps + arrows -->
+            <div style="display:flex; align-items:center; gap:14px;">
+              <div style="display:flex; flex-direction:column; align-items:center; gap:6px;"><div style="width:46px; height:46px; border-radius:999px; background:#fff; border:1px solid #EBE1D6; display:flex; align-items:center; justify-content:center; font-size:22px; color:#B0A092;">✕</div><span style="font-size:11px; font-weight:700; color:#B0A092;">გამოტოვება</span></div>
+              <div style="position:relative; width:150px; border-radius:22px; overflow:hidden; background:#fff; box-shadow:0 20px 40px -16px rgba(82,31,18,0.32); transform:rotate(5deg);">
+                <div style="height:150px; background:linear-gradient(135deg,#EF9E7B,#E8A93C); display:flex; align-items:center; justify-content:center; font-size:66px;">🐈</div>
+                <div style="padding:10px 12px;"><div style="font-weight:800; font-size:15px; color:#2E2620;">თომა, 3</div></div>
+                <div style="position:absolute; top:14px; right:12px; transform:rotate(12deg); border:3px solid #34B27B; color:#34B27B; font-weight:900; font-size:15px; padding:2px 8px; border-radius:8px;">მოწონება</div>
+              </div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:6px;"><div style="width:56px; height:56px; border-radius:999px; background:#34B27B; display:flex; align-items:center; justify-content:center; font-size:26px; color:#fff; box-shadow:0 10px 20px -8px rgba(52,178,123,0.7);">♥</div><span style="font-size:11px; font-weight:700; color:#1F7A4D;">მოწონება</span></div>
+            </div>
+
+            <div style="text-align:center;">
+              <h2 style="font-size:29px; font-weight:800; color:#2E2620; margin:0; line-height:1.2;">ათვალიერებ მისი სახელით</h2>
+              <p style="font-size:16px; color:#5F4F3E; margin:14px 0 0; font-weight:500; line-height:1.55; max-width:280px;"><b>მარჯვნივ</b> — მოგწონს, <b>მარცხნივ</b> — გამოტოვება. შენ ირჩევ შენი ცხოველისთვის შესაფერის პარტნიორს.</p>
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:center; gap:8px; margin-bottom:24px;">
+            <span style="width:8px; height:8px; border-radius:999px; background:#DDCFC0;"></span>
+            <span style="width:26px; height:8px; border-radius:999px; background:#E2643B;"></span>
+            <span style="width:8px; height:8px; border-radius:999px; background:#DDCFC0;"></span>
+          </div>
+          <button style="font-family:inherit; height:54px; border:none; border-radius:16px; background:#E2643B; color:#fff; font-weight:700; font-size:17px; cursor:pointer; box-shadow:0 10px 20px -8px rgba(226,100,59,0.6);">გაგრძელება</button>
+        </div>
+      </x-import>
+      <span style="font-family:'Space Mono',monospace; font-size:12px; color:#8A7866;">2 · ათვალიერებ სახელით</span>
+    </div>
+
+    <!-- ============ SLIDE 3 · MUTUAL = MATCH ============ -->
+    <div id="in3" style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+      <x-import component-from-global-scope="IOSDevice" from="./frames/ios-frame.jsx" hint-size="402px,874px">
+        <div style="min-height:874px; background:radial-gradient(120% 50% at 50% 0%, #FADFD2 0%, #FBF5EF 44%); font-family:'Noto Sans Georgian',sans-serif; padding:70px 28px 44px; display:flex; flex-direction:column;">
+          <div style="display:flex; justify-content:flex-end; height:30px;"></div>
+
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:40px;">
+            <!-- illustration: two cats + heart + chat -->
+            <div style="position:relative; display:flex; flex-direction:column; align-items:center; gap:16px;">
+              <div style="display:flex; align-items:center;">
+                <div style="width:96px; height:96px; border-radius:999px; background:linear-gradient(135deg,#F5BFA6,#E8A93C); display:flex; align-items:center; justify-content:center; font-size:44px; border:4px solid #fff; transform:rotate(-6deg); box-shadow:0 12px 24px -12px rgba(82,31,18,0.35);">🐈</div>
+                <div style="width:50px; height:50px; border-radius:999px; background:#E2643B; display:flex; align-items:center; justify-content:center; font-size:24px; color:#fff; margin:0 -14px; z-index:2; box-shadow:0 8px 16px -6px rgba(226,100,59,0.6);">💛</div>
+                <div style="width:96px; height:96px; border-radius:999px; background:linear-gradient(135deg,#EF9E7B,#C44F2C); display:flex; align-items:center; justify-content:center; font-size:44px; border:4px solid #fff; transform:rotate(6deg); box-shadow:0 12px 24px -12px rgba(82,31,18,0.35);">🐈</div>
+              </div>
+              <div style="display:flex; gap:8px; align-items:flex-end;">
+                <div style="background:#EBE1D6; color:#2E2620; padding:9px 13px; border-radius:14px 14px 14px 4px; font-size:13px; font-weight:600;">გამარჯობა! 👋</div>
+                <div style="background:#E2643B; color:#fff; padding:9px 13px; border-radius:14px 14px 4px 14px; font-size:13px; font-weight:600;">მოდი შევხვდეთ 🙂</div>
+              </div>
+            </div>
+
+            <div style="text-align:center;">
+              <h2 style="font-size:29px; font-weight:800; color:#2E2620; margin:0; line-height:1.2;">ორმხრივი მოწონება = დამთხვევა</h2>
+              <p style="font-size:16px; color:#5F4F3E; margin:14px 0 0; font-weight:500; line-height:1.55; max-width:280px;">როცა ორივე ცხოველი ერთმანეთს მოიწონებს, იხსნება <b>ჩატი ორ მფლობელს</b> შორის — დანარჩენი თქვენზეა.</p>
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:center; gap:8px; margin-bottom:24px;">
+            <span style="width:8px; height:8px; border-radius:999px; background:#DDCFC0;"></span>
+            <span style="width:8px; height:8px; border-radius:999px; background:#DDCFC0;"></span>
+            <span style="width:26px; height:8px; border-radius:999px; background:#E2643B;"></span>
+          </div>
+          <button style="font-family:inherit; height:54px; border:none; border-radius:16px; background:#E2643B; color:#fff; font-weight:700; font-size:17px; cursor:pointer; box-shadow:0 10px 20px -8px rgba(226,100,59,0.6);">დავიწყოთ 🐾</button>
+        </div>
+      </x-import>
+      <span style="font-family:'Space Mono',monospace; font-size:12px; color:#8A7866;">3 · დამთხვევა → ჩატი</span>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

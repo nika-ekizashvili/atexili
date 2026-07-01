@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500;600;700;800;900&family=Noto+Serif+Georgian:wght@600;700&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #EFE7DE; font-family:'Noto Sans Georgian',sans-serif; }
+</style>
+</helmet>
+
+<div style="padding:56px 48px 120px;">
+  <div style="text-align:center; margin-bottom:44px;">
+    <div style="font-family:'Space Mono',monospace; font-size:13px; color:#A5917D; letter-spacing:0.06em;">APP SCREENS · FILTERS</div>
+    <h1 style="font-family:'Noto Serif Georgian',serif; font-size:44px; font-weight:700; margin:8px 0 0; color:#3B1E12;">ფილტრები</h1>
+    <p style="color:#7F6C58; font-size:16px; margin:10px 0 0;">დასტა წინასწარ იფილტრება — სახეობა, ჯიში, სქესი, მანძილი, ასაკი.</p>
+  </div>
+
+  <div style="display:flex; justify-content:center;">
+    <div id="fl1" style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+      <x-import component-from-global-scope="IOSDevice" from="./frames/ios-frame.jsx" hint-size="402px,874px">
+        <div style="min-height:874px; background:#FBF5EF; font-family:'Noto Sans Georgian',sans-serif; padding:62px 0 0; display:flex; flex-direction:column;">
+          <!-- header -->
+          <div style="display:flex; align-items:center; justify-content:space-between; padding:8px 22px 16px;">
+            <h2 style="font-size:26px; font-weight:800; color:#2E2620; margin:0;">ფილტრები</h2>
+            <span style="font-size:14px; font-weight:700; color:#C44F2C;">განულება</span>
+          </div>
+
+          <div style="flex:1; padding:0 22px; display:flex; flex-direction:column; gap:24px; overflow:hidden;">
+            <!-- species -->
+            <div>
+              <div style="font-size:14px; font-weight:800; color:#2E2620; margin-bottom:12px;">სახეობა</div>
+              <div style="display:flex; gap:10px;">
+                <div style="flex:1; height:64px; border-radius:16px; background:#FDF3EE; border:2px solid #E2643B; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;"><span style="font-size:22px;">🐈</span><span style="font-size:13px; font-weight:700; color:#C44F2C;">კატა</span></div>
+                <div style="flex:1; height:64px; border-radius:16px; background:#fff; border:1.5px solid #EBE1D6; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;"><span style="font-size:22px; filter:grayscale(0.2);">🐕</span><span style="font-size:13px; font-weight:700; color:#7F6C58;">ძაღლი</span></div>
+                <div style="flex:1; height:64px; border-radius:16px; background:#fff; border:1.5px solid #EBE1D6; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;"><span style="font-size:22px; filter:grayscale(0.2);">🐦</span><span style="font-size:13px; font-weight:700; color:#7F6C58;">ფრინველი</span></div>
+                <div style="flex:1; height:64px; border-radius:16px; background:#fff; border:1.5px solid #EBE1D6; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;"><span style="font-size:22px;">🐾</span><span style="font-size:13px; font-weight:700; color:#7F6C58;">სხვა</span></div>
+              </div>
+            </div>
+
+            <!-- breed -->
+            <div>
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+                <div style="font-size:14px; font-weight:800; color:#2E2620;">ჯიში</div>
+                <span style="font-size:13px; color:#7F6C58; font-weight:600;">ბრიტანული მოკლებეწვიანი</span>
+              </div>
+              <div style="display:flex; align-items:center; justify-content:space-between; background:#fff; border:1px solid #EBE1D6; border-radius:14px; padding:14px 16px;">
+                <div><div style="font-weight:700; font-size:15px; color:#2E2620;">ღიაა თავსებადი ჯიშებისთვის</div><div style="font-size:12px; color:#A5917D; font-weight:500; margin-top:2px;">გამორთულია — მხოლოდ იგივე ჯიში</div></div>
+                <div style="width:50px; height:30px; border-radius:999px; background:#DDCFC0; position:relative; flex:none;"><span style="position:absolute; top:3px; left:3px; width:24px; height:24px; border-radius:999px; background:#fff;"></span></div>
+              </div>
+            </div>
+
+            <!-- gender -->
+            <div>
+              <div style="font-size:14px; font-weight:800; color:#2E2620; margin-bottom:12px;">სქესი</div>
+              <div style="display:flex; gap:10px;">
+                <div style="flex:1; height:50px; border-radius:14px; background:#FDF3EE; border:2px solid #E2643B; display:flex; align-items:center; justify-content:center; gap:6px; font-weight:700; font-size:15px; color:#C44F2C;">♂ მამრი</div>
+                <div style="flex:1; height:50px; border-radius:14px; background:#fff; border:1.5px solid #EBE1D6; display:flex; align-items:center; justify-content:center; gap:6px; font-weight:700; font-size:15px; color:#7F6C58;">♀ მდედრი</div>
+                <div style="flex:1; height:50px; border-radius:14px; background:#fff; border:1.5px solid #EBE1D6; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:15px; color:#7F6C58;">ყველა</div>
+              </div>
+              <div style="font-size:12px; color:#A5917D; font-weight:500; margin-top:8px;">ნაგულისხმევად — საპირისპირო სქესი (ლუნა მდედრია).</div>
+            </div>
+
+            <!-- distance -->
+            <div>
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;">
+                <div style="font-size:14px; font-weight:800; color:#2E2620;">მანძილი</div>
+                <span style="font-size:13px; font-weight:800; color:#C44F2C;">10 კმ-მდე</span>
+              </div>
+              <div style="position:relative; height:8px; border-radius:999px; background:#EBE1D6;">
+                <div style="position:absolute; left:0; top:0; height:8px; width:36%; border-radius:999px; background:#E2643B;"></div>
+                <div style="position:absolute; left:36%; top:50%; transform:translate(-50%,-50%); width:26px; height:26px; border-radius:999px; background:#fff; border:2px solid #E2643B; box-shadow:0 3px 8px -2px rgba(82,31,18,0.3);"></div>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-top:8px; font-size:11px; color:#A5917D; font-weight:600;"><span>1 კმ</span><span>50 კმ</span></div>
+            </div>
+
+            <!-- age -->
+            <div>
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;">
+                <div style="font-size:14px; font-weight:800; color:#2E2620;">ასაკი</div>
+                <span style="font-size:13px; font-weight:800; color:#C44F2C;">1 – 6 წელი</span>
+              </div>
+              <div style="position:relative; height:8px; border-radius:999px; background:#EBE1D6;">
+                <div style="position:absolute; left:8%; top:0; height:8px; width:52%; border-radius:999px; background:#E2643B;"></div>
+                <div style="position:absolute; left:8%; top:50%; transform:translate(-50%,-50%); width:26px; height:26px; border-radius:999px; background:#fff; border:2px solid #E2643B; box-shadow:0 3px 8px -2px rgba(82,31,18,0.3);"></div>
+                <div style="position:absolute; left:60%; top:50%; transform:translate(-50%,-50%); width:26px; height:26px; border-radius:999px; background:#fff; border:2px solid #E2643B; box-shadow:0 3px 8px -2px rgba(82,31,18,0.3);"></div>
+              </div>
+            </div>
+
+            <!-- verified only -->
+            <div style="display:flex; align-items:center; justify-content:space-between; background:#fff; border:1px solid #EBE1D6; border-radius:14px; padding:14px 16px;">
+              <div style="display:flex; align-items:center; gap:12px;"><span style="width:38px; height:38px; border-radius:11px; background:#FBF0D6; display:flex; align-items:center; justify-content:center; font-size:18px;">★</span><div><div style="font-weight:700; font-size:15px; color:#2E2620;">მხოლოდ ვერიფიცირებული</div><div style="font-size:12px; color:#A5917D; font-weight:500;">badge-იანი პროფილები</div></div></div>
+              <div style="width:50px; height:30px; border-radius:999px; background:#E2643B; position:relative; flex:none;"><span style="position:absolute; top:3px; right:3px; width:24px; height:24px; border-radius:999px; background:#fff;"></span></div>
+            </div>
+          </div>
+
+          <!-- apply -->
+          <div style="padding:16px 22px 40px; background:linear-gradient(0deg,#FBF5EF 70%, rgba(251,245,239,0));">
+            <button style="font-family:inherit; width:100%; height:54px; border:none; border-radius:16px; background:#E2643B; color:#fff; font-weight:700; font-size:17px; cursor:pointer; box-shadow:0 10px 20px -8px rgba(226,100,59,0.6);">28 კანდიდატის ჩვენება</button>
+          </div>
+        </div>
+      </x-import>
+      <span style="font-family:'Space Mono',monospace; font-size:12px; color:#8A7866;">ფილტრები / Filters</span>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

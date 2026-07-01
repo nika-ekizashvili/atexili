@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500;600;700;800;900&family=Noto+Serif+Georgian:wght@600;700&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #EFE7DE; font-family:'Noto Sans Georgian',sans-serif; }
+</style>
+</helmet>
+
+<div style="padding:56px 48px 120px;">
+  <div style="text-align:center; margin-bottom:44px;">
+    <div style="font-family:'Space Mono',monospace; font-size:13px; color:#A5917D; letter-spacing:0.06em;">APP SCREENS · CHAT ATTACHMENTS</div>
+    <h1 style="font-family:'Noto Serif Georgian',serif; font-size:44px; font-weight:700; margin:8px 0 0; color:#3B1E12;">ჩატის დანართები</h1>
+    <p style="color:#7F6C58; font-size:16px; margin:10px 0 0;">＋ ღილაკი ხსნის დანართების ფურცელს — ფოტო, დოკუმენტი, შეხვედრის ადგილი.</p>
+  </div>
+
+  <div style="display:flex; flex-wrap:wrap; gap:44px; justify-content:center; align-items:flex-start;">
+
+    <!-- ============ ATTACHMENT SHEET ============ -->
+    <div id="ca1" style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+      <x-import component-from-global-scope="IOSDevice" from="./frames/ios-frame.jsx" hint-size="402px,874px">
+        <div style="min-height:874px; background:#FBF5EF; font-family:'Noto Sans Georgian',sans-serif; padding:56px 0 0; display:flex; flex-direction:column; position:relative;">
+          <!-- chat header (context) -->
+          <div style="display:flex; align-items:center; gap:12px; padding:8px 16px 12px; border-bottom:1px solid #EFE4D8; background:#fff;">
+            <div style="width:38px; height:38px; border-radius:11px; background:#fff; border:1px solid #EBE1D6; display:flex; align-items:center; justify-content:center; font-size:19px; color:#5F4F3E; flex:none;">‹</div>
+            <div style="width:44px; height:44px; border-radius:999px; background:linear-gradient(135deg,#F5BFA6,#E8A93C); display:flex; align-items:center; justify-content:center; font-size:22px; flex:none;">🐈</div>
+            <div style="flex:1;"><div style="display:flex; align-items:center; gap:5px;"><span style="font-weight:800; font-size:17px; color:#2E2620;">თომა</span><span style="display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px; border-radius:999px; background:#E8A93C; color:#fff; font-size:10px; font-weight:900;">✓</span></div><div style="font-size:12px; color:#7F6C58; font-weight:600;">მფლობელი · გიორგი</div></div>
+          </div>
+          <!-- dimmed messages behind -->
+          <div style="flex:1; padding:18px 18px 8px; display:flex; flex-direction:column; gap:10px; opacity:0.5;">
+            <div style="align-self:flex-start; max-width:76%; background:#EBE1D6; color:#2E2620; padding:11px 15px; border-radius:18px 18px 18px 5px; font-size:15px;">გამარჯობა! ლუნა ნამდვილად ლამაზია 😍</div>
+            <div style="align-self:flex-end; max-width:76%; background:#E2643B; color:#fff; padding:11px 15px; border-radius:18px 18px 5px 18px; font-size:15px;">მადლობა! სად ხართ?</div>
+          </div>
+          <!-- scrim -->
+          <div style="position:absolute; inset:0; background:rgba(46,38,32,0.32);"></div>
+          <!-- attachment sheet -->
+          <div style="position:relative; background:#FBF5EF; border-radius:26px 26px 0 0; padding:14px 20px 34px; box-shadow:0 -12px 30px -14px rgba(82,31,18,0.3);">
+            <div style="width:44px; height:5px; border-radius:999px; background:#DDCFC0; margin:0 auto 18px;"></div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+              <div style="display:flex; align-items:center; gap:14px; background:#fff; border:1px solid #EBE1D6; border-radius:18px; padding:16px;"><span style="width:46px; height:46px; border-radius:13px; background:#FADFD2; display:flex; align-items:center; justify-content:center; font-size:22px; flex:none;">🖼️</span><span style="font-weight:700; font-size:15px; color:#2E2620;">ფოტოები</span></div>
+              <div style="display:flex; align-items:center; gap:14px; background:#fff; border:1px solid #EBE1D6; border-radius:18px; padding:16px;"><span style="width:46px; height:46px; border-radius:13px; background:#E9F6EE; display:flex; align-items:center; justify-content:center; font-size:22px; flex:none;">📷</span><span style="font-weight:700; font-size:15px; color:#2E2620;">კამერა</span></div>
+              <div style="display:flex; align-items:center; gap:14px; background:#fff; border:1px solid #EBE1D6; border-radius:18px; padding:16px;"><span style="width:46px; height:46px; border-radius:13px; background:#FBF0D6; display:flex; align-items:center; justify-content:center; font-size:22px; flex:none;">📄</span><span style="font-weight:700; font-size:15px; color:#2E2620; line-height:1.2;">ჯანმ. დოკუმენტი</span></div>
+              <div style="display:flex; align-items:center; gap:14px; background:#fff; border:1px solid #EBE1D6; border-radius:18px; padding:16px;"><span style="width:46px; height:46px; border-radius:13px; background:#EAF1FB; display:flex; align-items:center; justify-content:center; font-size:22px; flex:none;">📍</span><span style="font-weight:700; font-size:15px; color:#2E2620; line-height:1.2;">შეხვედრის ადგილი</span></div>
+            </div>
+            <button style="font-family:inherit; width:100%; height:52px; margin-top:12px; border:none; border-radius:16px; background:#fff; border:1px solid #EBE1D6; color:#7F6C58; font-weight:700; font-size:16px; cursor:pointer;">გაუქმება</button>
+          </div>
+        </div>
+      </x-import>
+      <span style="font-family:'Space Mono',monospace; font-size:12px; color:#8A7866;">1 · დანართების ფურცელი / Attach sheet</span>
+    </div>
+
+    <!-- ============ PHOTO + LOCATION MESSAGES ============ -->
+    <div id="ca2" style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+      <x-import component-from-global-scope="IOSDevice" from="./frames/ios-frame.jsx" hint-size="402px,874px">
+        <div style="min-height:874px; background:#FBF5EF; font-family:'Noto Sans Georgian',sans-serif; padding:56px 0 0; display:flex; flex-direction:column;">
+          <div style="display:flex; align-items:center; gap:12px; padding:8px 16px 12px; border-bottom:1px solid #EFE4D8; background:#fff;">
+            <div style="width:38px; height:38px; border-radius:11px; background:#fff; border:1px solid #EBE1D6; display:flex; align-items:center; justify-content:center; font-size:19px; color:#5F4F3E; flex:none;">‹</div>
+            <div style="width:44px; height:44px; border-radius:999px; background:linear-gradient(135deg,#F5BFA6,#E8A93C); display:flex; align-items:center; justify-content:center; font-size:22px; flex:none;">🐈</div>
+            <div style="flex:1;"><div style="display:flex; align-items:center; gap:5px;"><span style="font-weight:800; font-size:17px; color:#2E2620;">თომა</span><span style="display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px; border-radius:999px; background:#E8A93C; color:#fff; font-size:10px; font-weight:900;">✓</span></div><div style="font-size:12px; color:#7F6C58; font-weight:600;">მფლობელი · გიორგი</div></div>
+          </div>
+          <div style="flex:1; padding:18px 18px 8px; display:flex; flex-direction:column; gap:12px;">
+            <div style="align-self:flex-start; max-width:76%; background:#EBE1D6; color:#2E2620; padding:11px 15px; border-radius:18px 18px 18px 5px; font-size:15px; line-height:1.4;">გამიგზავნი თომას ფოტოს? 🙂</div>
+            <!-- photo message -->
+            <div style="align-self:flex-end; max-width:70%; border-radius:18px 18px 5px 18px; overflow:hidden; box-shadow:0 8px 18px -10px rgba(82,31,18,0.3);">
+              <div style="height:180px; background:linear-gradient(135deg,#F5BFA6,#E8A93C); display:flex; align-items:center; justify-content:center; font-size:76px;">🐈</div>
+            </div>
+            <div style="align-self:flex-end; display:flex; align-items:center; gap:5px; margin-top:-6px;"><span style="font-size:11px; color:#A5917D; font-weight:600;">14:36</span></div>
+            <div style="align-self:flex-start; max-width:76%; background:#EBE1D6; color:#2E2620; padding:11px 15px; border-radius:18px 18px 18px 5px; font-size:15px; line-height:1.4;">რა ლამაზია! 😻 მოდი შევხვდეთ</div>
+            <!-- location message -->
+            <div style="align-self:flex-end; max-width:74%; background:#fff; border:1px solid #EBE1D6; border-radius:18px 18px 5px 18px; overflow:hidden; box-shadow:0 6px 14px -8px rgba(82,31,18,0.24);">
+              <div style="height:110px; background:linear-gradient(135deg,#DDE8DA,#C3D6C9); position:relative; display:flex; align-items:center; justify-content:center;"><span style="font-size:34px;">📍</span><div style="position:absolute; inset:0; background:repeating-linear-gradient(90deg, rgba(255,255,255,0.25) 0 1px, transparent 1px 22px), repeating-linear-gradient(0deg, rgba(255,255,255,0.25) 0 1px, transparent 1px 22px);"></div></div>
+              <div style="padding:11px 14px;"><div style="font-weight:700; font-size:14px; color:#2E2620;">ვეტ-კლინიკა „ჯანმო"</div><div style="font-size:12px; color:#7F6C58; font-weight:500; margin-top:2px;">ვაკე, ჭავჭავაძის 42 · 2.1 კმ</div></div>
+            </div>
+            <div style="align-self:flex-end; display:flex; align-items:center; gap:5px; margin-top:-6px;"><span style="font-size:11px; color:#A5917D; font-weight:600;">წაკითხულია · 14:38</span></div>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px; padding:12px 16px 34px; background:#fff; border-top:1px solid #EFE4D8;">
+            <div style="width:42px; height:42px; border-radius:999px; background:#E2643B; display:flex; align-items:center; justify-content:center; font-size:22px; color:#fff; flex:none; transform:rotate(45deg);">＋</div>
+            <div style="flex:1; height:46px; border-radius:999px; background:#F5EEE6; display:flex; align-items:center; padding:0 18px; font-size:15px; color:#A5917D;">მესიჯი...</div>
+            <div style="width:46px; height:46px; border-radius:999px; background:#E2643B; display:flex; align-items:center; justify-content:center; font-size:20px; color:#fff; flex:none;">➤</div>
+          </div>
+        </div>
+      </x-import>
+      <span style="font-family:'Space Mono',monospace; font-size:12px; color:#8A7866;">2 · ფოტო + ადგილი / Photo &amp; location</span>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

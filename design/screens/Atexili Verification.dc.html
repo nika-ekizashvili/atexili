@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500;600;700;800;900&family=Noto+Serif+Georgian:wght@600;700&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #EFE7DE; font-family:'Noto Sans Georgian',sans-serif; }
+</style>
+</helmet>
+
+<div style="padding:56px 48px 120px;">
+  <div style="text-align:center; margin-bottom:44px;">
+    <div style="font-family:'Space Mono',monospace; font-size:13px; color:#A5917D; letter-spacing:0.06em;">APP SCREENS · VERIFICATION</div>
+    <h1 style="font-family:'Noto Serif Georgian',serif; font-size:44px; font-weight:700; margin:8px 0 0; color:#3B1E12;">ვერიფიკაცია</h1>
+    <p style="color:#7F6C58; font-size:16px; margin:10px 0 0;">ნდობის badge — მფლობელი ითხოვს, დოკუმენტს ატვირთავს, გუნდი ამოწმებს.</p>
+  </div>
+
+  <div style="display:flex; flex-wrap:wrap; gap:44px; justify-content:center; align-items:flex-start;">
+
+    <!-- ============ REQUEST ============ -->
+    <div id="v1" style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+      <x-import component-from-global-scope="IOSDevice" from="./frames/ios-frame.jsx" hint-size="402px,874px">
+        <div style="min-height:874px; background:#FBF5EF; font-family:'Noto Sans Georgian',sans-serif; padding:70px 26px 44px; display:flex; flex-direction:column;">
+          <div style="display:flex; align-items:center; height:44px; margin-bottom:6px;">
+            <div style="width:40px; height:40px; border-radius:12px; background:#fff; border:1px solid #EBE1D6; display:flex; align-items:center; justify-content:center; font-size:20px; color:#5F4F3E;">‹</div>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:center; text-align:center; margin:10px 0 24px;">
+            <div style="width:92px; height:92px; border-radius:26px; background:#FBF0D6; display:flex; align-items:center; justify-content:center; font-size:44px; box-shadow:0 12px 26px -12px rgba(232,169,60,0.6);">🛡️</div>
+            <h2 style="font-size:27px; font-weight:800; color:#2E2620; margin:18px 0 0;">მიიღე ვერიფიცირებული badge</h2>
+            <p style="font-size:15px; color:#7F6C58; margin:8px 0 0; font-weight:500; line-height:1.5;">ვერიფიცირებული პროფილები 3-ჯერ მეტ მოწონებას იღებენ და მეტ ნდობას იმსახურებენ.</p>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:12px; flex:1;">
+            <div style="font-size:13px; font-weight:800; color:#5F4F3E; letter-spacing:0.04em;">საჭირო დოკუმენტები</div>
+            <!-- doc 1 uploaded -->
+            <div style="display:flex; align-items:center; gap:14px; background:#fff; border:1.5px solid #2FA36B; border-radius:16px; padding:16px;">
+              <span style="width:44px; height:44px; border-radius:12px; background:#E9F6EE; display:flex; align-items:center; justify-content:center; font-size:20px; flex:none;">🪪</span>
+              <div style="flex:1;"><div style="font-weight:700; font-size:15px; color:#2E2620;">მფლობელის პირადობა</div><div style="font-size:13px; color:#2FA36B; font-weight:600;">ატვირთულია ✓</div></div>
+              <span style="width:26px; height:26px; border-radius:999px; background:#2FA36B; display:flex; align-items:center; justify-content:center; color:#fff; font-size:14px; font-weight:900; flex:none;">✓</span>
+            </div>
+            <!-- doc 2 pending upload -->
+            <div style="display:flex; align-items:center; gap:14px; background:#fff; border:1.5px dashed #DDCFC0; border-radius:16px; padding:16px;">
+              <span style="width:44px; height:44px; border-radius:12px; background:#F5EEE6; display:flex; align-items:center; justify-content:center; font-size:20px; flex:none;">📄</span>
+              <div style="flex:1;"><div style="font-weight:700; font-size:15px; color:#2E2620;">ცხოველის დოკუმენტი</div><div style="font-size:13px; color:#A5917D; font-weight:500;">წარმომავლობა ან ვეტ-პასპორტი</div></div>
+              <span style="background:#FADFD2; color:#C44F2C; font-weight:700; font-size:13px; padding:8px 14px; border-radius:999px; flex:none;">ატვირთვა</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:9px; background:#FBEFDA; border-radius:12px; padding:12px 14px; margin-top:4px;">
+              <span style="font-size:15px;">🔒</span>
+              <span style="font-size:13px; color:#9A6B12; font-weight:600; line-height:1.45;">დოკუმენტები მხოლოდ განხილვისთვისაა — არასდროს ქვეყნდება პროფილზე.</span>
+            </div>
+          </div>
+          <button style="font-family:inherit; height:54px; border:none; border-radius:16px; background:#E2643B; color:#fff; font-weight:700; font-size:17px; cursor:pointer; box-shadow:0 10px 20px -8px rgba(226,100,59,0.6); margin-top:16px;">გაგზავნა განსახილველად</button>
+        </div>
+      </x-import>
+      <span style="font-family:'Space Mono',monospace; font-size:12px; color:#8A7866;">1 · მოთხოვნა / Request</span>
+    </div>
+
+    <!-- ============ PENDING ============ -->
+    <div id="v2" style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+      <x-import component-from-global-scope="IOSDevice" from="./frames/ios-frame.jsx" hint-size="402px,874px">
+        <div style="min-height:874px; background:radial-gradient(125% 50% at 50% 0%, #FBF0D6 0%, #FBF5EF 46%); font-family:'Noto Sans Georgian',sans-serif; padding:70px 26px 44px; display:flex; flex-direction:column;">
+          <div style="display:flex; align-items:center; height:44px; margin-bottom:6px;">
+            <div style="width:40px; height:40px; border-radius:12px; background:#fff; border:1px solid #EBE1D6; display:flex; align-items:center; justify-content:center; font-size:20px; color:#5F4F3E;">‹</div>
+          </div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:22px;">
+            <div style="width:104px; height:104px; border-radius:999px; background:#E8A93C; display:flex; align-items:center; justify-content:center; font-size:48px; box-shadow:0 16px 32px -14px rgba(232,169,60,0.7);">⏳</div>
+            <div>
+              <h2 style="font-size:28px; font-weight:800; color:#2E2620; margin:0;">განხილვაშია</h2>
+              <p style="font-size:15px; color:#5F4F3E; margin:10px 0 0; font-weight:500; line-height:1.55; max-width:260px;">დოკუმენტები მიღებულია. შედეგს 24–48 საათში შეგატყობინებთ.</p>
+            </div>
+            <!-- status timeline -->
+            <div style="width:100%; background:#fff; border:1px solid #EBE1D6; border-radius:20px; padding:20px; margin-top:6px;">
+              <div style="display:flex; align-items:center; gap:14px; padding-bottom:16px;">
+                <span style="width:32px; height:32px; border-radius:999px; background:#2FA36B; display:flex; align-items:center; justify-content:center; color:#fff; font-size:15px; font-weight:900; flex:none;">✓</span>
+                <div style="flex:1; text-align:left;"><div style="font-weight:700; font-size:15px; color:#2E2620;">გაგზავნილია</div><div style="font-size:12px; color:#A5917D; font-weight:500;">დღეს, 14:20</div></div>
+              </div>
+              <div style="display:flex; align-items:center; gap:14px; padding-bottom:16px;">
+                <span style="width:32px; height:32px; border-radius:999px; background:#E8A93C; display:flex; align-items:center; justify-content:center; color:#fff; font-size:15px; flex:none;">◔</span>
+                <div style="flex:1; text-align:left;"><div style="font-weight:700; font-size:15px; color:#2E2620;">მიმდინარეობს განხილვა</div><div style="font-size:12px; color:#9A6B12; font-weight:600;">გუნდი ამოწმებს დოკუმენტებს</div></div>
+              </div>
+              <div style="display:flex; align-items:center; gap:14px;">
+                <span style="width:32px; height:32px; border-radius:999px; background:#EBE1D6; display:flex; align-items:center; justify-content:center; color:#A5917D; font-size:14px; font-weight:900; flex:none;">★</span>
+                <div style="flex:1; text-align:left;"><div style="font-weight:700; font-size:15px; color:#A5917D;">badge-ის მინიჭება</div><div style="font-size:12px; color:#C5B4A2; font-weight:500;">დადასტურების შემდეგ</div></div>
+              </div>
+            </div>
+          </div>
+          <button style="font-family:inherit; height:52px; border:1.5px solid #DDCFC0; border-radius:16px; background:#fff; color:#5F4F3E; font-weight:700; font-size:16px; cursor:pointer;">დახურვა</button>
+        </div>
+      </x-import>
+      <span style="font-family:'Space Mono',monospace; font-size:12px; color:#8A7866;">2 · განხილვაშია / Pending</span>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

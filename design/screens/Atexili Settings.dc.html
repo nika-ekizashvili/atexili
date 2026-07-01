@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500;600;700;800;900&family=Noto+Serif+Georgian:wght@600;700&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #EFE7DE; font-family:'Noto Sans Georgian',sans-serif; }
+</style>
+</helmet>
+
+<div style="padding:56px 48px 120px;">
+  <div style="text-align:center; margin-bottom:44px;">
+    <div style="font-family:'Space Mono',monospace; font-size:13px; color:#A5917D; letter-spacing:0.06em;">APP SCREENS · SETTINGS &amp; ACCOUNT</div>
+    <h1 style="font-family:'Noto Serif Georgian',serif; font-size:44px; font-weight:700; margin:8px 0 0; color:#3B1E12;">პარამეტრები და ანგარიში</h1>
+    <p style="color:#7F6C58; font-size:16px; margin:10px 0 0;">ანგარიში, შეტყობინებები, კონფიდენციალურობა და მონაცემთა წაშლა.</p>
+  </div>
+
+  <div style="display:flex; flex-wrap:wrap; gap:44px; justify-content:center; align-items:flex-start;">
+
+    <!-- ============ SETTINGS MAIN ============ -->
+    <div id="st1" style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+      <x-import component-from-global-scope="IOSDevice" from="./frames/ios-frame.jsx" hint-size="402px,874px">
+        <div style="min-height:874px; background:#FBF5EF; font-family:'Noto Sans Georgian',sans-serif; padding:62px 0 0; display:flex; flex-direction:column;">
+          <div style="display:flex; align-items:center; gap:14px; padding:8px 22px 16px;">
+            <div style="width:40px; height:40px; border-radius:12px; background:#fff; border:1px solid #EBE1D6; display:flex; align-items:center; justify-content:center; font-size:20px; color:#5F4F3E; flex:none;">‹</div>
+            <h2 style="font-size:26px; font-weight:800; color:#2E2620; margin:0;">პარამეტრები</h2>
+          </div>
+
+          <div style="flex:1; padding:0 22px; display:flex; flex-direction:column; gap:22px; overflow:hidden;">
+            <!-- account -->
+            <div>
+              <div style="font-size:12px; font-weight:800; color:#A5917D; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:10px;">ანგარიში</div>
+              <div style="background:#fff; border:1px solid #EBE1D6; border-radius:16px; overflow:hidden;">
+                <div style="display:flex; align-items:center; gap:12px; padding:14px 16px; border-bottom:1px solid #F5EEE6;"><span style="width:34px; height:34px; border-radius:10px; background:#F5EEE6; display:flex; align-items:center; justify-content:center; font-size:16px; flex:none;">✉️</span><span style="flex:1; font-weight:600; font-size:15px; color:#2E2620;">ელ. ფოსტა</span><span style="font-size:13px; color:#A5917D; font-weight:500;">nika@example.ge</span><span style="font-size:18px; color:#C5B4A2;">›</span></div>
+                <div style="display:flex; align-items:center; gap:12px; padding:14px 16px; border-bottom:1px solid #F5EEE6;"><span style="width:34px; height:34px; border-radius:10px; background:#F5EEE6; display:flex; align-items:center; justify-content:center; font-size:16px; flex:none;">📱</span><span style="flex:1; font-weight:600; font-size:15px; color:#2E2620;">ტელეფონი</span><span style="font-size:13px; color:#A5917D; font-weight:500;">+995 599···56</span><span style="font-size:18px; color:#C5B4A2;">›</span></div>
+                <div style="display:flex; align-items:center; gap:12px; padding:14px 16px;"><span style="width:34px; height:34px; border-radius:10px; background:#F5EEE6; display:flex; align-items:center; justify-content:center; font-size:16px; flex:none;">🔑</span><span style="flex:1; font-weight:600; font-size:15px; color:#2E2620;">პაროლის შეცვლა</span><span style="font-size:18px; color:#C5B4A2;">›</span></div>
+              </div>
+            </div>
+
+            <!-- notifications -->
+            <div>
+              <div style="font-size:12px; font-weight:800; color:#A5917D; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:10px;">შეტყობინებები</div>
+              <div style="background:#fff; border:1px solid #EBE1D6; border-radius:16px; overflow:hidden;">
+                <div style="display:flex; align-items:center; gap:12px; padding:13px 16px; border-bottom:1px solid #F5EEE6;"><span style="flex:1; font-weight:600; font-size:15px; color:#2E2620;">ახალი დამთხვევა</span><div style="width:48px; height:28px; border-radius:999px; background:#2FA36B; position:relative; flex:none;"><span style="position:absolute; top:3px; right:3px; width:22px; height:22px; border-radius:999px; background:#fff;"></span></div></div>
+                <div style="display:flex; align-items:center; gap:12px; padding:13px 16px; border-bottom:1px solid #F5EEE6;"><span style="flex:1; font-weight:600; font-size:15px; color:#2E2620;">ახალი მესიჯი</span><div style="width:48px; height:28px; border-radius:999px; background:#2FA36B; position:relative; flex:none;"><span style="position:absolute; top:3px; right:3px; width:22px; height:22px; border-radius:999px; background:#fff;"></span></div></div>
+                <div style="display:flex; align-items:center; gap:12px; padding:13px 16px;"><span style="flex:1; font-weight:600; font-size:15px; color:#2E2620;">რჩევები და სიახლეები</span><div style="width:48px; height:28px; border-radius:999px; background:#DDCFC0; position:relative; flex:none;"><span style="position:absolute; top:3px; left:3px; width:22px; height:22px; border-radius:999px; background:#fff;"></span></div></div>
+              </div>
+            </div>
+
+            <!-- privacy -->
+            <div>
+              <div style="font-size:12px; font-weight:800; color:#A5917D; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:10px;">კონფიდენციალურობა</div>
+              <div style="background:#fff; border:1px solid #EBE1D6; border-radius:16px; overflow:hidden;">
+                <div style="display:flex; align-items:center; gap:12px; padding:13px 16px; border-bottom:1px solid #F5EEE6;"><span style="flex:1; font-weight:600; font-size:15px; color:#2E2620;">მდებარეობის გაზიარება</span><div style="width:48px; height:28px; border-radius:999px; background:#2FA36B; position:relative; flex:none;"><span style="position:absolute; top:3px; right:3px; width:22px; height:22px; border-radius:999px; background:#fff;"></span></div></div>
+                <div style="display:flex; align-items:center; gap:12px; padding:14px 16px; border-bottom:1px solid #F5EEE6;"><span style="width:34px; height:34px; border-radius:10px; background:#F5EEE6; display:flex; align-items:center; justify-content:center; font-size:16px; flex:none;">🚫</span><span style="flex:1; font-weight:600; font-size:15px; color:#2E2620;">დაბლოკილები</span><span style="font-size:13px; color:#A5917D; font-weight:500;">2</span><span style="font-size:18px; color:#C5B4A2;">›</span></div>
+                <div style="display:flex; align-items:center; gap:12px; padding:14px 16px;"><span style="width:34px; height:34px; border-radius:10px; background:#F5EEE6; display:flex; align-items:center; justify-content:center; font-size:16px; flex:none;">⬇️</span><span style="flex:1; font-weight:600; font-size:15px; color:#2E2620;">ჩემი მონაცემების გადმოწერა</span><span style="font-size:18px; color:#C5B4A2;">›</span></div>
+              </div>
+            </div>
+
+            <!-- legal -->
+            <div>
+              <div style="font-size:12px; font-weight:800; color:#A5917D; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:10px;">სამართლებრივი</div>
+              <div style="background:#fff; border:1px solid #EBE1D6; border-radius:16px; overflow:hidden;">
+                <div style="display:flex; align-items:center; gap:12px; padding:14px 16px; border-bottom:1px solid #F5EEE6;"><span style="flex:1; font-weight:600; font-size:15px; color:#2E2620;">მოხმარების პირობები</span><span style="font-size:18px; color:#C5B4A2;">›</span></div>
+                <div style="display:flex; align-items:center; gap:12px; padding:14px 16px;"><span style="flex:1; font-weight:600; font-size:15px; color:#2E2620;">კონფიდენციალურობის პოლიტიკა</span><span style="font-size:18px; color:#C5B4A2;">›</span></div>
+              </div>
+            </div>
+
+            <!-- danger zone -->
+            <div style="display:flex; flex-direction:column; gap:10px; padding-bottom:8px;">
+              <button style="font-family:inherit; height:52px; border:1.5px solid #DDCFC0; border-radius:16px; background:#fff; color:#5F4F3E; font-weight:700; font-size:16px; cursor:pointer;">გასვლა</button>
+              <button style="font-family:inherit; height:52px; border:none; border-radius:16px; background:transparent; color:#D64C41; font-weight:700; font-size:15px; cursor:pointer;">ანგარიშის წაშლა</button>
+            </div>
+          </div>
+        </div>
+      </x-import>
+      <span style="font-family:'Space Mono',monospace; font-size:12px; color:#8A7866;">1 · პარამეტრები / Settings</span>
+    </div>
+
+    <!-- ============ DELETE ACCOUNT ============ -->
+    <div id="st2" style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+      <x-import component-from-global-scope="IOSDevice" from="./frames/ios-frame.jsx" hint-size="402px,874px">
+        <div style="min-height:874px; background:#FBF5EF; font-family:'Noto Sans Georgian',sans-serif; padding:70px 26px 44px; display:flex; flex-direction:column;">
+          <div style="display:flex; align-items:center; height:44px; margin-bottom:8px;">
+            <div style="width:40px; height:40px; border-radius:12px; background:#fff; border:1px solid #EBE1D6; display:flex; align-items:center; justify-content:center; font-size:20px; color:#5F4F3E;">‹</div>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:center; text-align:center; margin:8px 0 22px;">
+            <div style="width:84px; height:84px; border-radius:24px; background:#FBE3E0; display:flex; align-items:center; justify-content:center; font-size:38px;">⚠️</div>
+            <h2 style="font-size:26px; font-weight:800; color:#2E2620; margin:18px 0 0;">ანგარიშის წაშლა</h2>
+            <p style="font-size:15px; color:#5F4F3E; margin:8px 0 0; font-weight:500; line-height:1.55;">ეს მოქმედება <b>შეუქცევადია</b>. წაიშლება სამუდამოდ:</p>
+          </div>
+          <div style="flex:1;">
+            <div style="background:#fff; border:1px solid #EBE1D6; border-radius:16px; padding:6px 16px;">
+              <div style="display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid #F5EEE6;"><span style="font-size:18px;">🐾</span><span style="flex:1; font-weight:600; font-size:15px; color:#2E2620;">ცხოველების პროფილები</span><span style="font-size:14px; color:#A5917D; font-weight:600;">2</span></div>
+              <div style="display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid #F5EEE6;"><span style="font-size:18px;">💛</span><span style="flex:1; font-weight:600; font-size:15px; color:#2E2620;">დამთხვევები</span><span style="font-size:14px; color:#A5917D; font-weight:600;">5</span></div>
+              <div style="display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid #F5EEE6;"><span style="font-size:18px;">💬</span><span style="flex:1; font-weight:600; font-size:15px; color:#2E2620;">მიმოწერა და ისტორია</span></div>
+              <div style="display:flex; align-items:center; gap:12px; padding:12px 0;"><span style="font-size:18px;">📄</span><span style="flex:1; font-weight:600; font-size:15px; color:#2E2620;">ატვირთული დოკუმენტები</span></div>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:9px; background:#FBEFDA; border-radius:12px; padding:12px 14px; margin-top:14px;">
+              <span style="font-size:15px;">ℹ️</span>
+              <span style="font-size:13px; color:#9A6B12; font-weight:600; line-height:1.45;">კანონის შესაბამისად, მონაცემები 30 დღეში სრულად იშლება სერვერებიდანაც.</span>
+            </div>
+          </div>
+          <button style="font-family:inherit; height:54px; border:none; border-radius:16px; background:#D64C41; color:#fff; font-weight:800; font-size:17px; cursor:pointer; box-shadow:0 10px 20px -8px rgba(214,76,65,0.55); margin-top:16px;">სამუდამოდ წაშლა</button>
+          <button style="font-family:inherit; height:50px; border:none; border-radius:16px; background:transparent; color:#7F6C58; font-weight:700; font-size:15px; cursor:pointer; margin-top:4px;">გაუქმება</button>
+        </div>
+      </x-import>
+      <span style="font-family:'Space Mono',monospace; font-size:12px; color:#8A7866;">2 · ანგარიშის წაშლა / Delete account</span>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

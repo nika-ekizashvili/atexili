@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500;600;700;800;900&family=Noto+Serif+Georgian:wght@600;700&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #EFE7DE; font-family:'Noto Sans Georgian',sans-serif; }
+</style>
+</helmet>
+
+<div style="padding:56px 48px 120px;">
+  <div style="text-align:center; margin-bottom:44px;">
+    <div style="font-family:'Space Mono',monospace; font-size:13px; color:#A5917D; letter-spacing:0.06em;">APP SCREENS · PROFILE DETAIL</div>
+    <h1 style="font-family:'Noto Serif Georgian',serif; font-size:44px; font-weight:700; margin:8px 0 0; color:#3B1E12;">ცხოველის სრული პროფილი</h1>
+    <p style="color:#7F6C58; font-size:16px; margin:10px 0 0;">ბარათზე დაჭერით იშლება — ფოტოების კარუსელი, ჯანმრთელობა, დეტალები.</p>
+  </div>
+
+  <div style="display:flex; justify-content:center;">
+    <div id="pd1" style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+      <x-import component-from-global-scope="IOSDevice" from="./frames/ios-frame.jsx" hint-size="402px,874px">
+        <div style="min-height:874px; background:#FBF5EF; font-family:'Noto Sans Georgian',sans-serif; display:flex; flex-direction:column;">
+
+          <!-- photo header -->
+          <div style="position:relative; height:468px; background:linear-gradient(150deg,#F5BFA6,#E8A93C); display:flex; align-items:center; justify-content:center; font-size:150px; flex:none;">
+            🐈
+            <!-- story segments -->
+            <div style="position:absolute; top:52px; left:16px; right:16px; display:flex; gap:6px;">
+              <span style="flex:1; height:4px; border-radius:999px; background:#fff;"></span>
+              <span style="flex:1; height:4px; border-radius:999px; background:rgba(255,255,255,0.4);"></span>
+              <span style="flex:1; height:4px; border-radius:999px; background:rgba(255,255,255,0.4);"></span>
+            </div>
+            <!-- top controls -->
+            <div style="position:absolute; top:66px; left:16px; right:16px; display:flex; align-items:center; justify-content:space-between;">
+              <div style="width:40px; height:40px; border-radius:999px; background:rgba(46,38,32,0.35); backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; font-size:20px; color:#fff;">‹</div>
+              <div style="width:40px; height:40px; border-radius:999px; background:rgba(46,38,32,0.35); backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; font-size:17px; color:#fff;">⚑</div>
+            </div>
+            <!-- scrim -->
+            <div style="position:absolute; left:0; right:0; bottom:0; height:170px; background:linear-gradient(0deg, rgba(120,48,27,0.6), transparent);"></div>
+            <!-- name over photo -->
+            <div style="position:absolute; left:20px; right:20px; bottom:50px;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-weight:800; font-size:32px; color:#fff;">თომა</span>
+                <span style="font-weight:600; font-size:26px; color:rgba(255,255,255,0.9);">3</span>
+                <span style="display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; border-radius:999px; background:#E8A93C; color:#fff; font-size:14px; font-weight:900;">✓</span>
+              </div>
+              <div style="display:flex; gap:8px; margin-top:10px;">
+                <span style="display:inline-flex; align-items:center; gap:5px; background:rgba(255,255,255,0.94); color:#5F4F3E; font-weight:700; font-size:12px; padding:6px 12px; border-radius:999px;">📍 2.4 კმ</span>
+                <span style="display:inline-flex; align-items:center; gap:5px; background:rgba(255,255,255,0.94); color:#C44F2C; font-weight:700; font-size:12px; padding:6px 12px; border-radius:999px;">💕 ეძებს დაწყვილებას</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- details sheet -->
+          <div style="flex:1; background:#FBF5EF; border-radius:26px 26px 0 0; margin-top:-24px; position:relative; padding:24px 22px 0; display:flex; flex-direction:column; gap:22px;">
+
+            <!-- bio -->
+            <div>
+              <div style="font-size:13px; font-weight:800; color:#C44F2C; letter-spacing:0.05em; text-transform:uppercase; margin-bottom:8px;">ბიო</div>
+              <p style="font-size:15px; line-height:1.55; color:#453931; font-weight:500; margin:0;">მშვიდი და ჯენტლმენი ბრიტანელი. უყვარს ფანჯარასთან ჯდომა, თევზი და გრძელი ძილი. პირველი ნაგავი ჯანმრთელი და აქტიური იყო.</p>
+            </div>
+
+            <!-- health -->
+            <div>
+              <div style="font-size:13px; font-weight:800; color:#C44F2C; letter-spacing:0.05em; text-transform:uppercase; margin-bottom:12px;">ჯანმრთელობა</div>
+              <div style="display:flex; flex-direction:column; gap:10px;">
+                <div style="display:flex; align-items:center; gap:12px; background:#fff; border:1px solid #EBE1D6; border-radius:14px; padding:13px 15px;"><span style="width:34px; height:34px; border-radius:10px; background:#E9F6EE; display:flex; align-items:center; justify-content:center; font-size:17px; flex:none;">💉</span><span style="flex:1; font-weight:600; font-size:15px; color:#2E2620;">ვაქცინაცია — სრული კურსი</span><span style="color:#2FA36B; font-size:16px; font-weight:900;">✓</span></div>
+                <div style="display:flex; align-items:center; gap:12px; background:#fff; border:1px solid #EBE1D6; border-radius:14px; padding:13px 15px;"><span style="width:34px; height:34px; border-radius:10px; background:#E9F6EE; display:flex; align-items:center; justify-content:center; font-size:17px; flex:none;">🧬</span><span style="flex:1; font-weight:600; font-size:15px; color:#2E2620;">გენეტიკური ტესტები</span><span style="color:#2FA36B; font-size:16px; font-weight:900;">✓</span></div>
+                <div style="display:flex; align-items:center; gap:12px; background:#fff; border:1px solid #EBE1D6; border-radius:14px; padding:13px 15px;"><span style="width:34px; height:34px; border-radius:10px; background:#FBF0D6; display:flex; align-items:center; justify-content:center; font-size:17px; flex:none;">📄</span><span style="flex:1; font-weight:600; font-size:15px; color:#2E2620;">წარმომავლობის დოკუმენტი</span><span style="color:#2FA36B; font-size:16px; font-weight:900;">✓</span></div>
+              </div>
+            </div>
+
+            <!-- details grid -->
+            <div>
+              <div style="font-size:13px; font-weight:800; color:#C44F2C; letter-spacing:0.05em; text-transform:uppercase; margin-bottom:12px;">დეტალები</div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                <div style="background:#fff; border:1px solid #EBE1D6; border-radius:14px; padding:13px 15px;"><div style="font-size:12px; color:#A5917D; font-weight:600;">სახეობა</div><div style="font-weight:700; font-size:15px; color:#2E2620; margin-top:2px;">🐈 კატა</div></div>
+                <div style="background:#fff; border:1px solid #EBE1D6; border-radius:14px; padding:13px 15px;"><div style="font-size:12px; color:#A5917D; font-weight:600;">ჯიში</div><div style="font-weight:700; font-size:15px; color:#2E2620; margin-top:2px;">ბრიტანული</div></div>
+                <div style="background:#fff; border:1px solid #EBE1D6; border-radius:14px; padding:13px 15px;"><div style="font-size:12px; color:#A5917D; font-weight:600;">სქესი</div><div style="font-weight:700; font-size:15px; color:#2E2620; margin-top:2px;">♂ მამრი</div></div>
+                <div style="background:#fff; border:1px solid #EBE1D6; border-radius:14px; padding:13px 15px;"><div style="font-size:12px; color:#A5917D; font-weight:600;">ასაკი</div><div style="font-weight:700; font-size:15px; color:#2E2620; margin-top:2px;">3 წლის</div></div>
+              </div>
+            </div>
+
+            <!-- owner -->
+            <div style="display:flex; align-items:center; gap:12px; background:#fff; border:1px solid #EBE1D6; border-radius:16px; padding:14px;">
+              <div style="width:44px; height:44px; border-radius:999px; background:#7F6C58; display:flex; align-items:center; justify-content:center; font-family:'Noto Serif Georgian',serif; font-weight:700; font-size:18px; color:#fff; flex:none;">გ</div>
+              <div style="flex:1;"><div style="display:flex; align-items:center; gap:5px;"><span style="font-weight:700; font-size:15px; color:#2E2620;">გიორგი</span><span style="display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px; border-radius:999px; background:#E8A93C; color:#fff; font-size:10px; font-weight:900;">✓</span></div><div style="font-size:12px; color:#A5917D; font-weight:500;">მფლობელი · ვერიფიცირებული</div></div>
+              <span style="font-size:20px; color:#C5B4A2;">›</span>
+            </div>
+
+            <!-- sticky action bar -->
+            <div style="position:sticky; bottom:0; margin:0 -22px; padding:14px 22px 30px; background:linear-gradient(0deg, #FBF5EF 72%, rgba(251,245,239,0)); display:flex; align-items:center; justify-content:center; gap:18px;">
+              <div style="width:56px; height:56px; border-radius:999px; background:#fff; border:1px solid #EBE1D6; color:#B0A092; font-size:26px; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 18px -8px rgba(82,31,18,0.32);">✕</div>
+              <div style="width:50px; height:50px; border-radius:999px; background:#fff; border:1px solid #EBE1D6; color:#E8A93C; font-size:22px; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 14px -8px rgba(82,31,18,0.3);">↺</div>
+              <div style="width:64px; height:64px; border-radius:999px; background:#34B27B; color:#fff; font-size:30px; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 22px -8px rgba(52,178,123,0.7);">♥</div>
+            </div>
+          </div>
+        </div>
+      </x-import>
+      <span style="font-family:'Space Mono',monospace; font-size:12px; color:#8A7866;">ცხოველის პროფილი / Profile detail</span>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

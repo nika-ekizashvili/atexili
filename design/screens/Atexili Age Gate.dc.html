@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500;600;700;800;900&family=Noto+Serif+Georgian:wght@600;700&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #EFE7DE; font-family:'Noto Sans Georgian',sans-serif; }
+</style>
+</helmet>
+
+<div style="padding:56px 48px 120px;">
+  <div style="text-align:center; margin-bottom:44px;">
+    <div style="font-family:'Space Mono',monospace; font-size:13px; color:#A5917D; letter-spacing:0.06em;">APP SCREENS · AGE GATE</div>
+    <h1 style="font-family:'Noto Serif Georgian',serif; font-size:44px; font-weight:700; margin:8px 0 0; color:#3B1E12;">18+ ასაკის დადასტურება</h1>
+    <p style="color:#7F6C58; font-size:16px; margin:10px 0 0;">გამოჩნდება გახსნისას, ავტორიზაციამდე. PRD §-ის მოთხოვნა.</p>
+  </div>
+
+  <div style="display:flex; flex-wrap:wrap; gap:44px; justify-content:center; align-items:flex-start;">
+
+    <!-- ============ AGE GATE ============ -->
+    <div id="ag1" style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+      <x-import component-from-global-scope="IOSDevice" from="./frames/ios-frame.jsx" hint-size="402px,874px">
+        <div style="min-height:874px; background:radial-gradient(125% 52% at 50% 0%, #FADFD2 0%, #FBF5EF 46%); font-family:'Noto Sans Georgian',sans-serif; padding:80px 26px 44px; display:flex; flex-direction:column;">
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:26px;">
+            <div style="position:relative; width:120px; height:120px; border-radius:34px; background:#E2643B; display:flex; align-items:center; justify-content:center; box-shadow:0 16px 32px -12px rgba(226,100,59,0.6);">
+              <span style="font-family:'Noto Sans Georgian',sans-serif; font-weight:900; font-size:44px; color:#fff; letter-spacing:-0.02em;">18+</span>
+            </div>
+            <div>
+              <h2 style="font-size:28px; font-weight:800; color:#2E2620; margin:0;">ეს აპლიკაცია 18+ არის</h2>
+              <p style="font-size:16px; color:#5F4F3E; margin:12px 0 0; font-weight:500; line-height:1.55; max-width:280px;">ატეხილი ცხოველების პასუხისმგებლიან დაწყვილებას ეხმარება. გასაგრძელებლად დაადასტურე შენი ასაკი.</p>
+            </div>
+            <div style="width:100%; background:#fff; border:1px solid #EBE1D6; border-radius:18px; padding:16px 18px; display:flex; align-items:center; justify-content:space-between;">
+              <span style="font-weight:700; font-size:15px; color:#5F4F3E;">დაბადების თარიღი</span>
+              <span style="font-weight:700; font-size:16px; color:#2E2620;">14.03.1998</span>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <div style="display:flex; align-items:flex-start; gap:9px; margin-bottom:2px;">
+              <span style="width:22px; height:22px; border-radius:7px; background:#E2643B; flex:none; display:flex; align-items:center; justify-content:center; color:#fff; font-size:13px; font-weight:900; margin-top:1px;">✓</span>
+              <span style="font-size:13px; color:#5F4F3E; line-height:1.5; font-weight:500; text-align:left;">ვადასტურებ, რომ ვარ <b>18 წლის ან მეტის</b> და ვეთანხმები <b style="color:#C44F2C;">პირობებს</b>.</span>
+            </div>
+            <button style="font-family:inherit; height:54px; border:none; border-radius:16px; background:#E2643B; color:#fff; font-weight:700; font-size:17px; cursor:pointer; box-shadow:0 10px 20px -8px rgba(226,100,59,0.6);">დადასტურება</button>
+            <p style="text-align:center; font-size:12px; color:#A5917D; margin:6px 0 0; font-weight:500; line-height:1.5;">ასაკს ვამოწმებთ ბოტებისა და არასრულწლოვნების გასაფილტრად.</p>
+          </div>
+        </div>
+      </x-import>
+      <span style="font-family:'Space Mono',monospace; font-size:12px; color:#8A7866;">1 · ასაკის დადასტურება / Age gate</span>
+    </div>
+
+    <!-- ============ BLOCKED (UNDER 18) ============ -->
+    <div id="ag2" style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+      <x-import component-from-global-scope="IOSDevice" from="./frames/ios-frame.jsx" hint-size="402px,874px">
+        <div style="min-height:874px; background:#FBF5EF; font-family:'Noto Sans Georgian',sans-serif; padding:80px 26px 44px; display:flex; flex-direction:column;">
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:24px;">
+            <div style="width:100px; height:100px; border-radius:30px; background:#FBE3E0; display:flex; align-items:center; justify-content:center; font-size:46px;">🚧</div>
+            <div>
+              <h2 style="font-size:26px; font-weight:800; color:#2E2620; margin:0;">ჯერ ვერ შემოხვალ</h2>
+              <p style="font-size:16px; color:#5F4F3E; margin:12px 0 0; font-weight:500; line-height:1.55; max-width:280px;">ატეხილით სარგებლობა მხოლოდ <b>18 წლიდან</b> შეიძლება. მადლობა გაგებისთვის — დაგელოდებით! 🐾</p>
+            </div>
+          </div>
+          <button style="font-family:inherit; height:54px; border:1.5px solid #DDCFC0; border-radius:16px; background:#fff; color:#5F4F3E; font-weight:700; font-size:16px; cursor:pointer;">დახურვა</button>
+        </div>
+      </x-import>
+      <span style="font-family:'Space Mono',monospace; font-size:12px; color:#8A7866;">2 · შეზღუდვა (&lt;18) / Blocked</span>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

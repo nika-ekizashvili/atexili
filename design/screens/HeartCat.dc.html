@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="{{ outer }}">
+  <div style="{{ scaler }}">
+    <span style="{{ lobeL }}"></span>
+    <span style="{{ lobeR }}"></span>
+    <span style="{{ earL }}"></span>
+    <span style="{{ earR }}"></span>
+    <span style="{{ earInL }}"></span>
+    <span style="{{ earInR }}"></span>
+    <sc-if value="{{ angry }}" hint-placeholder-val="{{ true }}">
+      <span style="{{ browL }}"></span>
+      <span style="{{ browR }}"></span>
+    </sc-if>
+    <span style="{{ eyeL }}"></span>
+    <span style="{{ eyeR }}"></span>
+    <span style="{{ nose }}"></span>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:180,&quot;height&quot;:180},&quot;size&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:120,&quot;tsType&quot;:&quot;number&quot;},&quot;bg&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#E2643B&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;fg&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#FFFFFF&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;ink&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#E2643B&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;mood&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;angry&quot;,&quot;calm&quot;],&quot;default&quot;:&quot;angry&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;shadow&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;on&quot;,&quot;off&quot;],&quot;default&quot;:&quot;on&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const size = Number(this.props.size) || 120;
+    const bg  = this.props.bg  || '#E2643B';
+    const fg  = this.props.fg  || '#FFFFFF';
+    const ink = this.props.ink || bg;
+    const angry = (this.props.mood || 'angry') === 'angry';
+    const scale = size / 120;
+    const radius = this.props.radius ? Number(this.props.radius) : size * 0.28;
+    const shadow = this.props.shadow === 'off' ? 'none'
+      : '0 12px 26px -8px ' + bg + '88';
+
+    const outer = [
+      'width:' + size + 'px',
+      'height:' + size + 'px',
+      'border-radius:' + radius + 'px',
+      'background:' + bg,
+      'display:flex',
+      'align-items:center',
+      'justify-content:center',
+      'overflow:hidden',
+      'box-shadow:' + shadow,
+      'flex:none'
+    ].join(';');
+
+    const scaler = [
+      'position:relative',
+      'width:120px',
+      'height:120px',
+      'flex:none',
+      'transform:scale(' + scale + ')',
+      'transform-origin:center center'
+    ].join(';');
+
+    // Heart = two rounded-top rects rotated to meet at a bottom point.
+    const lobe = 'position:absolute;top:26px;width:44px;height:70px;border-radius:44px 44px 0 0;background:' + fg + ';';
+    const lobeL = lobe + 'left:60px;transform:rotate(-45deg);transform-origin:0 100%;';
+    const lobeR = lobe + 'left:16px;transform:rotate(45deg);transform-origin:100% 100%;';
+
+    // Pointed ears over each hump
+    const ear = 'position:absolute;top:2px;width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-bottom:34px solid ' + fg + ';';
+    const earL = ear + 'left:22px;transform:rotate(-12deg);';
+    const earR = ear + 'left:68px;transform:rotate(12deg);';
+    const earIn = 'position:absolute;top:12px;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:16px solid ' + bg + ';';
+    const earInL = earIn + 'left:31px;transform:rotate(-12deg);';
+    const earInR = earIn + 'left:77px;transform:rotate(12deg);';
+
+    // Eyes
+    const eye = 'position:absolute;top:60px;width:9px;height:' + (angry ? 11 : 12) + 'px;border-radius:999px;background:' + ink + ';';
+    const eyeL = eye + 'left:45px;' + (angry ? 'transform:rotate(16deg);' : '');
+    const eyeR = eye + 'left:66px;' + (angry ? 'transform:rotate(-16deg);' : '');
+
+    // Angry brows
+    const brow = 'position:absolute;top:51px;width:19px;height:6px;border-radius:999px;background:' + ink + ';';
+    const browL = brow + 'left:40px;transform:rotate(20deg);';
+    const browR = brow + 'left:61px;transform:rotate(-20deg);';
+
+    // Nose (small downward triangle)
+    const nose = 'position:absolute;left:54px;top:75px;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid ' + ink + ';';
+
+    return { outer, scaler, lobeL, lobeR, earL, earR, earInL, earInR, eyeL, eyeR, browL, browR, nose, angry };
+  }
+}
+</script>
+</body>
+</html>

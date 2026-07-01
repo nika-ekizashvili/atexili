@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500;600;700;800;900&family=Noto+Serif+Georgian:wght@600;700&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #EFE7DE; font-family:'Noto Sans Georgian',sans-serif; }
+</style>
+</helmet>
+
+<div style="padding:56px 48px 120px;">
+  <div style="text-align:center; margin-bottom:44px;">
+    <div style="font-family:'Space Mono',monospace; font-size:13px; color:#A5917D; letter-spacing:0.06em;">APP SCREENS · NOTIFICATIONS &amp; EMPTY STATES</div>
+    <h1 style="font-family:'Noto Serif Georgian',serif; font-size:44px; font-weight:700; margin:8px 0 0; color:#3B1E12;">შეტყობინებები და ცარიელი მდგომარეობები</h1>
+    <p style="color:#7F6C58; font-size:16px; margin:10px 0 0;">re-engagement-ის საფუძველი — push, ნებართვა და ცარიელი ეკრანები.</p>
+  </div>
+
+  <div style="display:flex; flex-wrap:wrap; gap:44px; justify-content:center; align-items:flex-start;">
+
+    <!-- ============ PERMISSION PRIMING ============ -->
+    <div id="nt1" style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+      <x-import component-from-global-scope="IOSDevice" from="./frames/ios-frame.jsx" hint-size="402px,874px">
+        <div style="min-height:874px; background:radial-gradient(125% 52% at 50% 0%, #FADFD2 0%, #FBF5EF 46%); font-family:'Noto Sans Georgian',sans-serif; padding:96px 26px 44px; display:flex; flex-direction:column;">
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:26px;">
+            <div style="position:relative; width:112px; height:112px; border-radius:32px; background:#E2643B; display:flex; align-items:center; justify-content:center; font-size:52px; box-shadow:0 16px 32px -12px rgba(226,100,59,0.6);">🔔<span style="position:absolute; top:-6px; right:-6px; min-width:30px; height:30px; padding:0 8px; border-radius:999px; background:#D64C41; color:#fff; font-size:14px; font-weight:800; display:flex; align-items:center; justify-content:center; border:3px solid #FBEAE0;">3</span></div>
+            <div>
+              <h2 style="font-size:28px; font-weight:800; color:#2E2620; margin:0;">არ გამოტოვო დამთხვევა</h2>
+              <p style="font-size:16px; color:#5F4F3E; margin:12px 0 0; font-weight:500; line-height:1.55; max-width:270px;">ჩართე შეტყობინებები და მაშინვე შეიტყობ ახალ დამთხვევასა და მესიჯზე.</p>
+            </div>
+            <div style="width:100%; display:flex; flex-direction:column; gap:12px; text-align:left;">
+              <div style="display:flex; align-items:center; gap:12px; background:#fff; border:1px solid #EBE1D6; border-radius:16px; padding:14px;"><span style="width:40px; height:40px; border-radius:11px; background:#FADFD2; display:flex; align-items:center; justify-content:center; font-size:20px;">💛</span><span style="font-weight:600; font-size:15px; color:#2E2620;">ახალი დამთხვევა მყისვე</span></div>
+              <div style="display:flex; align-items:center; gap:12px; background:#fff; border:1px solid #EBE1D6; border-radius:16px; padding:14px;"><span style="width:40px; height:40px; border-radius:11px; background:#E9F6EE; display:flex; align-items:center; justify-content:center; font-size:20px;">💬</span><span style="font-weight:600; font-size:15px; color:#2E2620;">მესიჯები მფლობელებისგან</span></div>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <button style="font-family:inherit; height:54px; border:none; border-radius:16px; background:#E2643B; color:#fff; font-weight:700; font-size:17px; cursor:pointer; box-shadow:0 10px 20px -8px rgba(226,100,59,0.6);">შეტყობინებების ჩართვა</button>
+            <button style="font-family:inherit; height:50px; border:none; border-radius:16px; background:transparent; color:#7F6C58; font-weight:700; font-size:15px; cursor:pointer;">მოგვიანებით</button>
+          </div>
+        </div>
+      </x-import>
+      <span style="font-family:'Space Mono',monospace; font-size:12px; color:#8A7866;">1 · ნებართვა / Priming</span>
+    </div>
+
+    <!-- ============ PUSH / LOCK SCREEN ============ -->
+    <div id="nt2" style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+      <x-import component-from-global-scope="IOSDevice" from="./frames/ios-frame.jsx" dark="true" hint-size="402px,874px">
+        <div style="min-height:874px; background:linear-gradient(165deg,#78301B 0%, #2E2620 60%, #1C1712 100%); font-family:'Noto Sans Georgian',sans-serif; padding:72px 16px 44px; display:flex; flex-direction:column;">
+          <div style="text-align:center; margin-bottom:30px;">
+            <div style="font-size:18px; color:rgba(255,255,255,0.7); font-weight:600;">ორშაბათი, 14 ივლისი</div>
+            <div style="font-size:82px; color:#fff; font-weight:800; line-height:1; letter-spacing:-0.02em; margin-top:2px;">9:41</div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <div style="display:flex; align-items:flex-start; gap:12px; background:rgba(255,255,255,0.16); backdrop-filter:blur(14px); border-radius:20px; padding:14px;">
+              <div style="width:40px; height:40px; border-radius:11px; background:#E2643B; display:flex; align-items:center; justify-content:center; font-size:20px; flex:none;">🐾</div>
+              <div style="flex:1;">
+                <div style="display:flex; justify-content:space-between; align-items:baseline;"><span style="font-weight:800; font-size:14px; color:#fff;">ატეხილი</span><span style="font-size:12px; color:rgba(255,255,255,0.6);">ახლა</span></div>
+                <div style="font-size:15px; color:#fff; font-weight:700; margin-top:2px;">🎉 ახალი დამთხვევა!</div>
+                <div style="font-size:14px; color:rgba(255,255,255,0.82); font-weight:500; line-height:1.4;">ლუნა და თომა ერთმანეთს მოეწონენ. მიესალმე!</div>
+              </div>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:12px; background:rgba(255,255,255,0.16); backdrop-filter:blur(14px); border-radius:20px; padding:14px;">
+              <div style="width:40px; height:40px; border-radius:11px; background:#E2643B; display:flex; align-items:center; justify-content:center; font-size:20px; flex:none;">🐾</div>
+              <div style="flex:1;">
+                <div style="display:flex; justify-content:space-between; align-items:baseline;"><span style="font-weight:800; font-size:14px; color:#fff;">ატეხილი</span><span style="font-size:12px; color:rgba(255,255,255,0.6);">2 წთ</span></div>
+                <div style="font-size:15px; color:#fff; font-weight:700; margin-top:2px;">თომა</div>
+                <div style="font-size:14px; color:rgba(255,255,255,0.82); font-weight:500; line-height:1.4;">შესანიშნავია, მოდი ხვალ ☀️</div>
+              </div>
+            </div>
+          </div>
+          <div style="flex:1;"></div>
+        </div>
+      </x-import>
+      <span style="font-family:'Space Mono',monospace; font-size:12px; color:#8A7866;">2 · Push / Lock screen</span>
+    </div>
+
+    <!-- ============ EMPTY · MATCHES ============ -->
+    <div id="nt3" style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+      <x-import component-from-global-scope="IOSDevice" from="./frames/ios-frame.jsx" hint-size="402px,874px">
+        <div style="min-height:874px; background:#FBF5EF; font-family:'Noto Sans Georgian',sans-serif; padding:62px 0 0; display:flex; flex-direction:column;">
+          <div style="padding:8px 22px 6px;"><h2 style="font-size:30px; font-weight:800; color:#2E2620; margin:0;">დამთხვევები</h2></div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:20px; padding:0 34px;">
+            <div style="width:104px; height:104px; border-radius:30px; background:#FADFD2; display:flex; align-items:center; justify-content:center; font-size:50px;">🐾</div>
+            <div>
+              <h3 style="font-size:22px; font-weight:800; color:#2E2620; margin:0;">ჯერ დამთხვევა არ გაქვს</h3>
+              <p style="font-size:15px; color:#7F6C58; margin:8px 0 0; font-weight:500; line-height:1.55;">განაგრძე swipe — ლუნას იდეალური წყვილი სადღაც ახლოსაა.</p>
+            </div>
+            <button style="font-family:inherit; height:50px; padding:0 26px; border:none; border-radius:16px; background:#E2643B; color:#fff; font-weight:700; font-size:16px; cursor:pointer; box-shadow:0 10px 20px -8px rgba(226,100,59,0.6);">🔥 swipe-ის დაწყება</button>
+          </div>
+          <div style="display:flex; align-items:center; justify-content:space-around; padding:10px 12px 30px; border-top:1px solid #EFE4D8; background:#fff;">
+            <div style="display:flex; flex-direction:column; align-items:center; gap:3px; color:#B0A092;"><span style="font-size:21px; filter:grayscale(1);">🔥</span><span style="font-size:11px; font-weight:700;">აღმოჩენა</span></div>
+            <div style="display:flex; flex-direction:column; align-items:center; gap:3px; color:#E2643B;"><span style="font-size:21px;">💛</span><span style="font-size:11px; font-weight:800;">დამთხვევები</span></div>
+            <div style="display:flex; flex-direction:column; align-items:center; gap:3px; color:#B0A092;"><span style="font-size:21px; filter:grayscale(1);">💬</span><span style="font-size:11px; font-weight:700;">ჩატები</span></div>
+            <div style="display:flex; flex-direction:column; align-items:center; gap:3px; color:#B0A092;"><span style="font-size:21px; filter:grayscale(1);">🐾</span><span style="font-size:11px; font-weight:700;">ჩემი</span></div>
+          </div>
+        </div>
+      </x-import>
+      <span style="font-family:'Space Mono',monospace; font-size:12px; color:#8A7866;">3 · ცარიელი — დამთხვევები</span>
+    </div>
+
+    <!-- ============ EMPTY · CHATS ============ -->
+    <div id="nt4" style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+      <x-import component-from-global-scope="IOSDevice" from="./frames/ios-frame.jsx" hint-size="402px,874px">
+        <div style="min-height:874px; background:#FBF5EF; font-family:'Noto Sans Georgian',sans-serif; padding:62px 0 0; display:flex; flex-direction:column;">
+          <div style="padding:8px 22px 6px;"><h2 style="font-size:30px; font-weight:800; color:#2E2620; margin:0;">ჩატები</h2></div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:20px; padding:0 34px;">
+            <div style="width:104px; height:104px; border-radius:30px; background:#E9F6EE; display:flex; align-items:center; justify-content:center; font-size:50px;">💬</div>
+            <div>
+              <h3 style="font-size:22px; font-weight:800; color:#2E2620; margin:0;">ჯერ მიმოწერა არ არის</h3>
+              <p style="font-size:15px; color:#7F6C58; margin:8px 0 0; font-weight:500; line-height:1.55;">დამთხვევის შემდეგ აქ გამოჩნდება საუბრები. პირველი ნაბიჯი შენზეა 🙂</p>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; justify-content:space-around; padding:10px 12px 30px; border-top:1px solid #EFE4D8; background:#fff;">
+            <div style="display:flex; flex-direction:column; align-items:center; gap:3px; color:#B0A092;"><span style="font-size:21px; filter:grayscale(1);">🔥</span><span style="font-size:11px; font-weight:700;">აღმოჩენა</span></div>
+            <div style="display:flex; flex-direction:column; align-items:center; gap:3px; color:#B0A092;"><span style="font-size:21px; filter:grayscale(1);">💛</span><span style="font-size:11px; font-weight:700;">დამთხვევები</span></div>
+            <div style="display:flex; flex-direction:column; align-items:center; gap:3px; color:#E2643B;"><span style="font-size:21px;">💬</span><span style="font-size:11px; font-weight:800;">ჩატები</span></div>
+            <div style="display:flex; flex-direction:column; align-items:center; gap:3px; color:#B0A092;"><span style="font-size:21px; filter:grayscale(1);">🐾</span><span style="font-size:11px; font-weight:700;">ჩემი</span></div>
+          </div>
+        </div>
+      </x-import>
+      <span style="font-family:'Space Mono',monospace; font-size:12px; color:#8A7866;">4 · ცარიელი — ჩატები</span>
+    </div>
+
+    <!-- ============ EMPTY · PETS ============ -->
+    <div id="nt5" style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+      <x-import component-from-global-scope="IOSDevice" from="./frames/ios-frame.jsx" hint-size="402px,874px">
+        <div style="min-height:874px; background:#FBF5EF; font-family:'Noto Sans Georgian',sans-serif; padding:62px 0 0; display:flex; flex-direction:column;">
+          <div style="padding:8px 22px 6px;"><h2 style="font-size:30px; font-weight:800; color:#2E2620; margin:0;">ჩემი ცხოველები</h2></div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:20px; padding:0 34px;">
+            <div style="width:104px; height:104px; border-radius:30px; background:linear-gradient(135deg,#F5BFA6,#E8A93C); display:flex; align-items:center; justify-content:center; font-size:50px;">🐈</div>
+            <div>
+              <h3 style="font-size:22px; font-weight:800; color:#2E2620; margin:0;">ჯერ ცხოველი არ დაგიმატებია</h3>
+              <p style="font-size:15px; color:#7F6C58; margin:8px 0 0; font-weight:500; line-height:1.55;">დაამატე შენი პირველი ცხოველი, რომ დაიწყო დათვალიერება და დაწყვილება.</p>
+            </div>
+            <button style="font-family:inherit; height:50px; padding:0 26px; border:none; border-radius:16px; background:#E2643B; color:#fff; font-weight:700; font-size:16px; cursor:pointer; box-shadow:0 10px 20px -8px rgba(226,100,59,0.6);">＋ ცხოველის დამატება</button>
+          </div>
+          <div style="display:flex; align-items:center; justify-content:space-around; padding:10px 12px 30px; border-top:1px solid #EFE4D8; background:#fff;">
+            <div style="display:flex; flex-direction:column; align-items:center; gap:3px; color:#B0A092;"><span style="font-size:21px; filter:grayscale(1);">🔥</span><span style="font-size:11px; font-weight:700;">აღმოჩენა</span></div>
+            <div style="display:flex; flex-direction:column; align-items:center; gap:3px; color:#B0A092;"><span style="font-size:21px; filter:grayscale(1);">💛</span><span style="font-size:11px; font-weight:700;">დამთხვევები</span></div>
+            <div style="display:flex; flex-direction:column; align-items:center; gap:3px; color:#B0A092;"><span style="font-size:21px; filter:grayscale(1);">💬</span><span style="font-size:11px; font-weight:700;">ჩატები</span></div>
+            <div style="display:flex; flex-direction:column; align-items:center; gap:3px; color:#E2643B;"><span style="font-size:21px;">🐾</span><span style="font-size:11px; font-weight:800;">ჩემი</span></div>
+          </div>
+        </div>
+      </x-import>
+      <span style="font-family:'Space Mono',monospace; font-size:12px; color:#8A7866;">5 · ცარიელი — ცხოველები</span>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

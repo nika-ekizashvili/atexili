@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500;600;700;800;900&family=Noto+Serif+Georgian:wght@600;700&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #EFE7DE; font-family:'Noto Sans Georgian',sans-serif; }
+  input::placeholder { color:#A5917D; }
+</style>
+</helmet>
+
+<div style="padding:56px 48px 120px;">
+  <div style="text-align:center; margin-bottom:44px;">
+    <div style="font-family:'Space Mono',monospace; font-size:13px; color:#A5917D; letter-spacing:0.06em;">APP SCREENS · PROFILE &amp; MY PETS</div>
+    <h1 style="font-family:'Noto Serif Georgian',serif; font-size:44px; font-weight:700; margin:8px 0 0; color:#3B1E12;">პროფილი და ცხოველები</h1>
+    <p style="color:#7F6C58; font-size:16px; margin:10px 0 0;">ონბორდინგის დარჩენილი ნაწილი: მფლობელის პროფილი და „ჩემი ცხოველები“ ჰაბი.</p>
+  </div>
+
+  <div style="display:flex; flex-wrap:wrap; gap:44px; justify-content:center; align-items:flex-start;">
+
+    <!-- ============ PROFILE CREATION ============ -->
+    <div id="pr1" style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+      <x-import component-from-global-scope="IOSDevice" from="./frames/ios-frame.jsx" hint-size="402px,874px">
+        <div style="min-height:874px; background:#FBF5EF; font-family:'Noto Sans Georgian',sans-serif; padding:70px 26px 44px; display:flex; flex-direction:column;">
+          <div style="display:flex; align-items:center; gap:14px; height:44px; margin-bottom:16px;">
+            <div style="width:40px; height:40px; border-radius:12px; background:#fff; border:1px solid #EBE1D6; display:flex; align-items:center; justify-content:center; font-size:20px; color:#5F4F3E; flex:none;">‹</div>
+            <div style="flex:1; display:flex; gap:5px;">
+              <span style="flex:1; height:6px; border-radius:999px; background:#E2643B;"></span>
+              <span style="flex:1; height:6px; border-radius:999px; background:#EBE1D6;"></span>
+            </div>
+            <span style="font-family:'Space Mono',monospace; font-size:12px; color:#A5917D; font-weight:700; flex:none;">ნაბიჯი 1/2</span>
+          </div>
+          <div style="margin-bottom:26px;">
+            <h2 style="font-size:30px; font-weight:800; color:#2E2620; margin:0;">შენი პროფილი</h2>
+            <p style="font-size:15px; color:#7F6C58; margin:8px 0 0; font-weight:500; line-height:1.5;">ეს მფლობელის ბარათია — ცხოველების უკან შენ დგახარ. მოკლედ შენ შესახებ.</p>
+          </div>
+          <div style="display:flex; justify-content:center; margin-bottom:24px;">
+            <div style="position:relative;">
+              <div style="width:104px; height:104px; border-radius:999px; background:#E2643B; display:flex; align-items:center; justify-content:center; font-family:'Noto Serif Georgian',serif; font-weight:700; font-size:44px; color:#fff; box-shadow:0 12px 24px -10px rgba(226,100,59,0.55);">ნ</div>
+              <div style="position:absolute; right:-2px; bottom:-2px; width:36px; height:36px; border-radius:999px; background:#fff; border:1px solid #EBE1D6; display:flex; align-items:center; justify-content:center; font-size:16px; box-shadow:0 4px 10px -4px rgba(82,31,18,0.25);">📷</div>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:16px; flex:1;">
+            <div>
+              <label style="font-size:13px; font-weight:700; color:#5F4F3E; display:block; margin-bottom:7px;">სახელი</label>
+              <input value="ნიკა" style="font-family:inherit; width:100%; height:52px; padding:0 16px; border:1.5px solid #DDCFC0; border-radius:14px; background:#fff; color:#2E2620; font-size:16px; font-weight:600; outline:none;">
+            </div>
+            <div>
+              <label style="font-size:13px; font-weight:700; color:#5F4F3E; display:block; margin-bottom:7px;">მდებარეობა</label>
+              <div style="display:flex; align-items:center; justify-content:space-between; height:52px; padding:0 16px; border:1.5px solid #DDCFC0; border-radius:14px; background:#fff;">
+                <span style="display:flex; align-items:center; gap:9px; font-size:16px; font-weight:600; color:#2E2620;"><span style="font-size:17px;">📍</span>თბილისი, საქართველო</span>
+                <span style="font-size:18px; color:#A5917D;">›</span>
+              </div>
+              <button style="font-family:inherit; margin-top:10px; display:inline-flex; align-items:center; gap:7px; background:#FADFD2; color:#C44F2C; border:none; border-radius:999px; padding:9px 15px; font-size:13px; font-weight:700; cursor:pointer;">📡 მიმდინარე მდებარეობის გამოყენება</button>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:9px; background:#FBEFDA; border-radius:12px; padding:12px 14px;">
+              <span style="font-size:15px;">🔒</span>
+              <span style="font-size:13px; color:#9A6B12; font-weight:600; line-height:1.45;">ზუსტ მისამართს არასდროს ვაჩვენებთ — მხოლოდ დაახლოებით მანძილს.</span>
+            </div>
+          </div>
+          <button style="font-family:inherit; height:54px; border:none; border-radius:16px; background:#E2643B; color:#fff; font-weight:700; font-size:17px; cursor:pointer; box-shadow:0 10px 20px -8px rgba(226,100,59,0.6); margin-top:18px;">გაგრძელება</button>
+        </div>
+      </x-import>
+      <span style="font-family:'Space Mono',monospace; font-size:12px; color:#8A7866;">A · მფლობელის პროფილი / Profile</span>
+    </div>
+
+    <!-- ============ MY PETS ============ -->
+    <div id="pr2" style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+      <x-import component-from-global-scope="IOSDevice" from="./frames/ios-frame.jsx" hint-size="402px,874px">
+        <div style="min-height:874px; background:#FBF5EF; font-family:'Noto Sans Georgian',sans-serif; padding:66px 22px 44px; display:flex; flex-direction:column;">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; padding:0 4px;">
+            <div>
+              <h2 style="font-size:30px; font-weight:800; color:#2E2620; margin:0;">ჩემი ცხოველები</h2>
+              <p style="font-size:14px; color:#7F6C58; margin:4px 0 0; font-weight:600;">1 პროფილი აქტიურია</p>
+            </div>
+            <div style="width:44px; height:44px; border-radius:999px; background:#E2643B; display:flex; align-items:center; justify-content:center; font-family:'Noto Serif Georgian',serif; font-weight:700; font-size:19px; color:#fff;">ნ</div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:14px; flex:1; margin-top:20px;">
+            <!-- pet card -->
+            <div style="background:#fff; border:1px solid #EBE1D6; border-radius:20px; padding:14px; box-shadow:0 8px 20px -14px rgba(82,31,18,0.25);">
+              <div style="display:flex; gap:14px; align-items:center;">
+                <div style="width:76px; height:76px; border-radius:16px; background:linear-gradient(135deg,#F5BFA6,#E8A93C); display:flex; align-items:center; justify-content:center; font-size:38px; flex:none;">🐈</div>
+                <div style="flex:1; min-width:0;">
+                  <div style="display:flex; align-items:center; gap:6px;">
+                    <span style="font-weight:800; font-size:19px; color:#2E2620;">ლუნა</span>
+                    <span style="font-weight:600; font-size:16px; color:#7F6C58;">2</span>
+                    <span style="display:inline-flex; align-items:center; justify-content:center; width:19px; height:19px; border-radius:999px; background:#E8A93C; color:#fff; font-size:11px; font-weight:900;">✓</span>
+                  </div>
+                  <div style="font-size:13px; color:#7F6C58; font-weight:500; margin-top:3px;">კატა · ბრიტანული მოკლებეწვიანი · მდედრი</div>
+                  <div style="display:flex; gap:6px; margin-top:9px;">
+                    <span style="background:#FDF3EE; color:#C44F2C; font-weight:700; font-size:12px; padding:5px 10px; border-radius:999px;">💕 ეძებს დაწყვილებას</span>
+                  </div>
+                </div>
+                <span style="font-size:20px; color:#C5B4A2; flex:none;">›</span>
+              </div>
+              <div style="display:flex; gap:10px; margin-top:14px; padding-top:14px; border-top:1px solid #F5EEE6;">
+                <div style="flex:1; text-align:center;"><div style="font-weight:800; font-size:18px; color:#2E2620;">24</div><div style="font-size:11px; color:#A5917D; font-weight:600;">მოწონება</div></div>
+                <div style="width:1px; background:#F5EEE6;"></div>
+                <div style="flex:1; text-align:center;"><div style="font-weight:800; font-size:18px; color:#2E2620;">5</div><div style="font-size:11px; color:#A5917D; font-weight:600;">დამთხვევა</div></div>
+                <div style="width:1px; background:#F5EEE6;"></div>
+                <div style="flex:1; text-align:center;"><div style="font-weight:800; font-size:18px; color:#2E2620;">3</div><div style="font-size:11px; color:#A5917D; font-weight:600;">ახალი ჩატი</div></div>
+              </div>
+            </div>
+            <!-- add another -->
+            <button style="font-family:inherit; display:flex; align-items:center; justify-content:center; gap:10px; height:60px; border-radius:20px; background:transparent; border:2px dashed #DDCFC0; color:#7F6C58; font-weight:700; font-size:16px; cursor:pointer;"><span style="font-size:22px; font-weight:300; color:#E2643B;">＋</span>კიდევ ცხოველის დამატება</button>
+          </div>
+          <button style="font-family:inherit; height:54px; border:none; border-radius:16px; background:#E2643B; color:#fff; font-weight:700; font-size:17px; cursor:pointer; box-shadow:0 10px 20px -8px rgba(226,100,59,0.6); display:flex; align-items:center; justify-content:center; gap:8px;">🔥 დაიწყე swipe ლუნას სახელით</button>
+        </div>
+      </x-import>
+      <span style="font-family:'Space Mono',monospace; font-size:12px; color:#8A7866;">B · ჩემი ცხოველები / My Pets</span>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

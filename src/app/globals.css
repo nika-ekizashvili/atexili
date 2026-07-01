@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+/*
+ * ატეხილი design tokens — source: design/screens/Atexili Design Tokens.dc.html
+ * Warm terracotta system; shadows are brown-tinted (rgba(82,31,18,·)), never black.
+ */
+@theme {
+  /* Brand */
+  --color-primary: #e2643b;
+  --color-primary-hover: #c44f2c;
+  --color-secondary: #f5bfa6;
+  --color-accent: #e8a93c;
+
+  /* Terracotta scale */
+  --color-terracotta-50: #fdf3ee;
+  --color-terracotta-100: #fadfd2;
+  --color-terracotta-200: #f5bfa6;
+  --color-terracotta-300: #ef9e7b;
+  --color-terracotta-400: #e97e54;
+  --color-terracotta-500: #e2643b;
+  --color-terracotta-600: #c44f2c;
+  --color-terracotta-700: #9e3e22;
+  --color-terracotta-800: #78301b;
+  --color-terracotta-900: #521f12;
+
+  /* Warm neutrals */
+  --color-cream: #fbf5ef; /* app bg (neutral-50) */
+  --color-surface: #ffffff;
+  --color-line: #ebe1d6; /* border-subtle (neutral-100) */
+  --color-line-strong: #ddcfc0; /* input borders (neutral-200) */
+  --color-line-nav: #efe4d8; /* nav hairline */
+  --color-fill: #f5eee6; /* soft fill (chat input, icon tiles) */
+  --color-ink: #2e2620; /* primary text (neutral-800) */
+  --color-ink-body: #453931;
+  --color-ink-label: #5f4f3e;
+  --color-ink-muted: #7f6c58; /* secondary text (neutral-500) */
+  --color-ink-caption: #8a7866;
+  --color-ink-faint: #a5917d; /* placeholder */
+  --color-ink-disabled: #b0a092;
+  --color-neutral-300: #c5b4a2;
+  --color-neutral-900: #1c1712;
+  --color-brand-dark: #3b1e12; /* wordmark ink */
+
+  /* Status */
+  --color-success: #2fa36b;
+  --color-warning: #e6a020;
+  --color-danger: #d64c41;
+
+  /* Swipe semantics */
+  --color-like: #34b27b;
+  --color-nope: #b0a092;
+  --color-rewind: #e8a93c;
+
+  /* Chip surfaces */
+  --color-chip-green: #e9f6ee;
+  --color-chip-green-text: #1f7a4d;
+  --color-chip-gold: #fbf0d6;
+  --color-chip-gold-text: #9a6b12;
+  --color-banner-warm: #fbefda;
+  --color-danger-soft: #fbe3e0;
+  --color-location-soft: #eaf1fb;
+
+  /* Type */
+  --font-sans: var(--font-noto-sans-georgian), system-ui, sans-serif;
+  --font-display: var(--font-noto-serif-georgian), serif;
+
+  /* Elevation — warm-tinted */
+  --shadow-warm-sm: 0 1px 2px rgba(82, 31, 18, 0.08);
+  --shadow-warm-md: 0 4px 12px -2px rgba(82, 31, 18, 0.12);
+  --shadow-warm-lg: 0 12px 28px -8px rgba(82, 31, 18, 0.2);
+  --shadow-warm-xl: 0 24px 48px -12px rgba(82, 31, 18, 0.28);
+  --shadow-glow: 0 10px 20px -8px rgba(226, 100, 59, 0.6);
+  --shadow-glow-hover: 0 16px 28px -10px rgba(196, 79, 44, 0.62);
+  --shadow-glow-danger: 0 10px 20px -8px rgba(214, 76, 65, 0.55);
+  --shadow-glow-like: 0 10px 22px -8px rgba(52, 178, 123, 0.7);
+
+  /* Motion */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+:root {
+  --dur-instant: 120ms;
+  --dur-base: 220ms;
+  --dur-swipe: 350ms;
+  --dur-match: 600ms;
+}
+
+html {
+  background: #efe7de; /* canvas behind the phone column on wide screens */
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: #f5bfa6;
+  color: #521f12;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-ink-faint);
+}
+
+/* Single mobile column (design is 402pt wide; no desktop layout specified) */
+.app-column {
+  max-width: 430px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  background: var(--color-cream);
+  box-shadow: 0 0 48px -12px rgba(82, 31, 18, 0.18);
+  position: relative;
+}
+
+/* Hide scrollbars on horizontal rails */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

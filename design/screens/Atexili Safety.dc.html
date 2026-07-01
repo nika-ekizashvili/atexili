@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500;600;700;800;900&family=Noto+Serif+Georgian:wght@600;700&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #EFE7DE; font-family:'Noto Sans Georgian',sans-serif; }
+</style>
+</helmet>
+
+<div style="padding:56px 48px 120px;">
+  <div style="text-align:center; margin-bottom:44px;">
+    <div style="font-family:'Space Mono',monospace; font-size:13px; color:#A5917D; letter-spacing:0.06em;">APP SCREENS · SAFETY</div>
+    <h1 style="font-family:'Noto Serif Georgian',serif; font-size:44px; font-weight:700; margin:8px 0 0; color:#3B1E12;">საჩივარი და დაბლოკვა</h1>
+    <p style="color:#7F6C58; font-size:16px; margin:10px 0 0;">ნდობა და უსაფრთხოება — Report / Block პროფილსა და ჩატში.</p>
+  </div>
+
+  <div style="display:flex; flex-wrap:wrap; gap:44px; justify-content:center; align-items:flex-start;">
+
+    <!-- ============ REPORT ============ -->
+    <div id="sf1" style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+      <x-import component-from-global-scope="IOSDevice" from="./frames/ios-frame.jsx" hint-size="402px,874px">
+        <div style="min-height:874px; background:#FBF5EF; font-family:'Noto Sans Georgian',sans-serif; padding:62px 22px 44px; display:flex; flex-direction:column;">
+          <div style="display:flex; align-items:center; justify-content:space-between; height:44px; margin-bottom:14px;">
+            <div style="width:40px; height:40px; border-radius:12px; background:#fff; border:1px solid #EBE1D6; display:flex; align-items:center; justify-content:center; font-size:20px; color:#5F4F3E;">‹</div>
+            <span style="font-size:16px; font-weight:800; color:#2E2620;">საჩივარი</span>
+            <div style="width:40px;"></div>
+          </div>
+          <div style="margin-bottom:18px;">
+            <h2 style="font-size:24px; font-weight:800; color:#2E2620; margin:0;">რა მოხდა თომას პროფილზე?</h2>
+            <p style="font-size:14px; color:#7F6C58; margin:8px 0 0; font-weight:500; line-height:1.5;">შენი საჩივარი ანონიმურია. მძიმე შემთხვევებს გუნდი განიხილავს.</p>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:10px; flex:1;">
+            <div style="display:flex; align-items:center; gap:12px; background:#FDF3EE; border:2px solid #E2643B; border-radius:14px; padding:15px;"><span style="flex:1; font-weight:700; font-size:15px; color:#2E2620;">ყალბი ან შეცდომაში შემყვანი პროფილი</span><span style="width:24px; height:24px; border-radius:999px; background:#E2643B; display:flex; align-items:center; justify-content:center; color:#fff; font-size:13px; font-weight:900; flex:none;">✓</span></div>
+            <div style="display:flex; align-items:center; gap:12px; background:#fff; border:1.5px solid #EBE1D6; border-radius:14px; padding:15px;"><span style="flex:1; font-weight:600; font-size:15px; color:#2E2620;">შეურაცხმყოფელი ან აგრესიული ქცევა</span><span style="width:22px; height:22px; border-radius:999px; border:2px solid #DDCFC0; flex:none;"></span></div>
+            <div style="display:flex; align-items:center; gap:12px; background:#fff; border:1.5px solid #EBE1D6; border-radius:14px; padding:15px;"><span style="flex:1; font-weight:600; font-size:15px; color:#2E2620;">სპამი ან თაღლითობა</span><span style="width:22px; height:22px; border-radius:999px; border:2px solid #DDCFC0; flex:none;"></span></div>
+            <div style="display:flex; align-items:center; gap:12px; background:#fff; border:1.5px solid #EBE1D6; border-radius:14px; padding:15px;"><span style="flex:1; font-weight:600; font-size:15px; color:#2E2620;">არასათანადო შინაარსი</span><span style="width:22px; height:22px; border-radius:999px; border:2px solid #DDCFC0; flex:none;"></span></div>
+            <div style="display:flex; align-items:center; gap:12px; background:#fff; border:1.5px solid #EBE1D6; border-radius:14px; padding:15px;"><span style="flex:1; font-weight:600; font-size:15px; color:#2E2620;">არ არის რეალური ცხოველი</span><span style="width:22px; height:22px; border-radius:999px; border:2px solid #DDCFC0; flex:none;"></span></div>
+            <div style="display:flex; align-items:center; gap:12px; background:#fff; border:1.5px solid #EBE1D6; border-radius:14px; padding:15px;"><span style="flex:1; font-weight:600; font-size:15px; color:#2E2620;">სხვა მიზეზი</span><span style="width:22px; height:22px; border-radius:999px; border:2px solid #DDCFC0; flex:none;"></span></div>
+          </div>
+          <button style="font-family:inherit; height:54px; border:none; border-radius:16px; background:#D64C41; color:#fff; font-weight:700; font-size:17px; cursor:pointer; box-shadow:0 10px 20px -8px rgba(214,76,65,0.55); margin-top:16px;">საჩივრის გაგზავნა</button>
+        </div>
+      </x-import>
+      <span style="font-family:'Space Mono',monospace; font-size:12px; color:#8A7866;">1 · საჩივარი / Report</span>
+    </div>
+
+    <!-- ============ BLOCK DIALOG ============ -->
+    <div id="sf2" style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+      <x-import component-from-global-scope="IOSDevice" from="./frames/ios-frame.jsx" hint-size="402px,874px">
+        <div style="min-height:874px; background:#2E2620; font-family:'Noto Sans Georgian',sans-serif; position:relative; display:flex; align-items:center; justify-content:center; padding:22px;">
+          <!-- dimmed chat context hint -->
+          <div style="position:absolute; inset:0; background:rgba(28,23,18,0.55);"></div>
+          <!-- action sheet options -->
+          <div style="position:absolute; left:16px; right:16px; bottom:40px; display:flex; flex-direction:column; gap:10px;">
+            <div style="background:#fff; border-radius:18px; overflow:hidden;">
+              <div style="text-align:center; padding:14px; font-size:13px; color:#7F6C58; font-weight:600; border-bottom:1px solid #F0E7DD;">თომა · გიორგი</div>
+              <div style="text-align:center; padding:16px; font-size:16px; font-weight:700; color:#C44F2C; border-bottom:1px solid #F0E7DD;">⚑ საჩივრის დაფიქსირება</div>
+              <div style="text-align:center; padding:16px; font-size:16px; font-weight:800; color:#D64C41;">🚫 დაბლოკვა</div>
+            </div>
+            <div style="background:#fff; border-radius:18px; text-align:center; padding:16px; font-size:16px; font-weight:700; color:#2E2620;">გაუქმება</div>
+          </div>
+          <!-- centered confirm dialog on top -->
+          <div style="position:relative; width:300px; background:#FBF5EF; border-radius:24px; padding:26px 22px; text-align:center; box-shadow:0 30px 60px -20px rgba(0,0,0,0.5);">
+            <div style="width:64px; height:64px; border-radius:999px; background:#FBE3E0; display:flex; align-items:center; justify-content:center; font-size:30px; margin:0 auto 16px;">🚫</div>
+            <h3 style="font-size:21px; font-weight:800; color:#2E2620; margin:0;">დაბლოკო თომა?</h3>
+            <p style="font-size:14px; color:#5F4F3E; font-weight:500; line-height:1.5; margin:10px 0 22px;">ვეღარ ნახავთ ერთმანეთს დასტაში და თქვენი მიმოწერა დაიხურება. ამის გაუქმება ნებისმიერ დროს შეგიძლია პარამეტრებიდან.</p>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <button style="font-family:inherit; height:50px; border:none; border-radius:14px; background:#D64C41; color:#fff; font-weight:800; font-size:16px; cursor:pointer;">დიახ, დაბლოკვა</button>
+              <button style="font-family:inherit; height:50px; border:none; border-radius:14px; background:transparent; color:#7F6C58; font-weight:700; font-size:16px; cursor:pointer;">გაუქმება</button>
+            </div>
+          </div>
+        </div>
+      </x-import>
+      <span style="font-family:'Space Mono',monospace; font-size:12px; color:#8A7866;">2 · დაბლოკვა / Block</span>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>
