@@ -16,6 +16,8 @@ and is the source of truth for all screens and tokens.
 - **Prisma 7** + **SQLite** (dev) via `@prisma/adapter-better-sqlite3` —
   swap the adapter + provider for **Postgres** in production
 - **Auth:** email/password (bcrypt) + JWT session in an httpOnly cookie (jose)
+- **Photo storage:** S3 (AWS SDK) via presigned direct-to-bucket uploads —
+  works with any S3-compatible service; falls back to placeholders when unset
 - **Tailwind CSS v4** — design tokens mapped 1:1 from the handoff
   (`src/app/globals.css` `@theme` block)
 - **Framer Motion** — swipe deck physics, match spring-pop, bottom sheets
@@ -86,9 +88,25 @@ Pet "photos" are intentionally the mock placeholders (emoji on warm gradients)
 3. Replace the adapter in `src/server/db.ts` with `@prisma/adapter-pg`
 4. `npx prisma migrate dev` (and promote the JSON-string columns to `Json`)
 
+## Photo storage (S3)
+
+Pet photos and chat images upload straight to an S3 bucket via presigned PUT
+URLs — the Next server signs the request, the browser uploads the bytes, and
+the returned public URL is stored on the pet/message. Configure in
+`.env.local` (see `.env` for the full list):
+
+```
+S3_BUCKET=…  S3_REGION=…  S3_ACCESS_KEY_ID=…  S3_SECRET_ACCESS_KEY=…
+# S3_ENDPOINT / S3_FORCE_PATH_STYLE / S3_PUBLIC_URL for R2 · MinIO · Spaces
+```
+
+Leave it unset and uploads transparently fall back to the gradient-emoji
+placeholders, so dev needs no bucket. `src/server/storage.ts` +
+`/api/uploads` (presign) + `src/lib/upload.ts` (client) are the whole path.
+
 ## Not built yet (deliberately)
 
-Real photo/document storage, OAuth (Google/Apple buttons are visual), real SMS
-OTP (any 6-digit code passes), realtime chat updates (messages load on
-navigation), verification review tooling, password change/reset persistence.
-`JWT_SECRET` must be overridden outside dev.
+OAuth (Google/Apple buttons are visual), real SMS OTP (any 6-digit code
+passes), realtime chat updates (messages load on navigation), verification
+review tooling, password change/reset persistence. `JWT_SECRET` and real S3
+credentials must be set outside dev.

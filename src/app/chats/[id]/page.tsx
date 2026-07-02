@@ -10,6 +10,7 @@ import BlockDialog from "@/components/BlockDialog";
 import { BackButton, VerifiedBadge } from "@/components/ui";
 import { GRADIENTS } from "@/lib/data";
 import { useApp } from "@/lib/store";
+import { uploadPhoto } from "@/lib/upload";
 import { useBootstrapped } from "@/lib/useBootstrapped";
 import type { Message } from "@/lib/types";
 
@@ -188,13 +189,22 @@ export default function ChatThreadPage({ params }: { params: Promise<{ id: strin
             icon="🖼️"
             iconBg="bg-terracotta-100"
             label="ფოტოები"
-            onClick={() => send({ kind: "image", photo: { gradient: GRADIENTS.peachGold, emoji: "🐈" } })}
+            onFile={(file) =>
+              void uploadPhoto(file, { gradient: GRADIENTS.peachGold, emoji: "🐈" }).then((photo) =>
+                send({ kind: "image", photo }),
+              )
+            }
           />
           <AttachTile
             icon="📷"
             iconBg="bg-chip-green"
             label="კამერა"
-            onClick={() => send({ kind: "image", photo: { gradient: GRADIENTS.coralWarm, emoji: "🐈" } })}
+            capture
+            onFile={(file) =>
+              void uploadPhoto(file, { gradient: GRADIENTS.coralWarm, emoji: "🐈" }).then((photo) =>
+                send({ kind: "image", photo }),
+              )
+            }
           />
           <AttachTile
             icon="📄"
@@ -295,21 +305,41 @@ function AttachTile({
   iconBg,
   label,
   onClick,
+  onFile,
+  capture,
 }: {
   icon: string;
   iconBg: string;
   label: string;
-  onClick: () => void;
+  onClick?: () => void;
+  /** when set, the tile opens a file picker instead of firing onClick */
+  onFile?: (file: File) => void;
+  capture?: boolean;
 }) {
+  const inputRef = useRef<HTMLInputElement>(null);
   return (
     <button
-      onClick={onClick}
+      onClick={() => (onFile ? inputRef.current?.click() : onClick?.())}
       className="flex cursor-pointer items-center gap-3.5 rounded-[18px] border border-line bg-surface p-4 text-left transition-colors duration-[160ms] hover:border-terracotta-200"
     >
       <span className={`flex h-[46px] w-[46px] flex-none items-center justify-center rounded-[13px] text-[22px] ${iconBg}`}>
         {icon}
       </span>
       <span className="text-[15px] font-bold leading-tight text-ink">{label}</span>
+      {onFile && (
+        <input
+          ref={inputRef}
+          type="file"
+          accept="image/*"
+          {...(capture ? { capture: "environment" } : {})}
+          hidden
+          onChange={(e) => {
+            const f = e.target.files?.[0];
+            if (f) onFile(f);
+            e.target.value = "";
+          }}
+        />
+      )}
     </button>
   );
 }

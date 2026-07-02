@@ -4,6 +4,7 @@ import { use, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Plus, Trash2 } from "lucide-react";
+import AddPhotoTile from "@/components/AddPhotoTile";
 import PetPhoto from "@/components/PetPhoto";
 import { BackButton, FieldLabel, Segmented, TextInput } from "@/components/ui";
 import { GRADIENTS } from "@/lib/data";
@@ -66,21 +67,17 @@ export default function EditPetPage({ params }: { params: Promise<{ id: string }
               </button>
             ))}
             {photos.length < 7 && (
-              <button
-                onClick={() =>
-                  setPhotos([
-                    ...photos,
-                    {
-                      gradient: Object.values(GRADIENTS)[photos.length % 6],
-                      emoji: pet.species === "dog" ? "🐕" : pet.species === "cat" ? "🐈" : "🐾",
-                    },
-                  ])
-                }
-                className="flex cursor-pointer items-center justify-center rounded-xl border-2 border-dashed border-line-strong bg-surface text-ink-faint transition-colors duration-[160ms] hover:border-terracotta-200"
+              <AddPhotoTile
+                className="rounded-xl"
                 style={{ aspectRatio: "3/4" }}
+                fallback={{
+                  gradient: Object.values(GRADIENTS)[photos.length % 6],
+                  emoji: pet.species === "dog" ? "🐕" : pet.species === "cat" ? "🐈" : "🐾",
+                }}
+                onAdd={(photo) => setPhotos((prev) => [...prev, photo])}
               >
                 <Plus size={24} strokeWidth={1.5} />
-              </button>
+              </AddPhotoTile>
             )}
           </div>
         </div>

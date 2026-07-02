@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { Check, MapPin, Plus } from "lucide-react";
+import { Check, MapPin } from "lucide-react";
+import AddPhotoTile from "@/components/AddPhotoTile";
 import PetPhoto from "@/components/PetPhoto";
 import Sheet from "@/components/Sheet";
 import {
@@ -231,22 +232,15 @@ export default function AddPetPage() {
                   </button>
                 ))}
                 {Array.from({ length: Math.max(0, 6 - photos.length) }, (_, i) => (
-                  <button
+                  <AddPhotoTile
                     key={`empty-${i}`}
-                    onClick={() =>
-                      setPhotos([
-                        ...photos,
-                        {
-                          gradient: PLACEHOLDER_POOL[photos.length % PLACEHOLDER_POOL.length],
-                          emoji: photos.length === 2 ? "🐾" : speciesEmoji,
-                        },
-                      ])
-                    }
-                    className="flex cursor-pointer items-center justify-center rounded-2xl border-2 border-dashed border-line-strong bg-surface text-ink-faint transition-colors duration-[160ms] hover:border-terracotta-200"
                     style={{ aspectRatio: "3/4" }}
-                  >
-                    <Plus size={26} strokeWidth={1.5} />
-                  </button>
+                    fallback={{
+                      gradient: PLACEHOLDER_POOL[(photos.length + i) % PLACEHOLDER_POOL.length],
+                      emoji: (photos.length + i) % 3 === 2 ? "🐾" : speciesEmoji,
+                    }}
+                    onAdd={(photo) => setPhotos((prev) => [...prev, photo])}
+                  />
                 ))}
               </div>
               <div className="my-4">

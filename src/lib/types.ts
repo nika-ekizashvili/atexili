@@ -3,11 +3,12 @@ export type Gender = "female" | "male";
 export type Intent = "mate" | "available";
 export type VerificationStatus = "none" | "pending" | "verified";
 
-/** Placeholder photo — in the mocks every pet photo is an emoji on a warm
- * gradient; real uploads replace this with storage URLs later. */
+/** A pet photo. Real uploads carry `url` (S3); when absent it renders as the
+ * mock's emoji-on-gradient placeholder. */
 export interface PhotoPlaceholder {
-  gradient: string; // CSS gradient
+  gradient: string; // CSS gradient (placeholder / image backdrop while loading)
   emoji: string;
+  url?: string; // S3 public URL once uploaded
 }
 
 export interface Pet {

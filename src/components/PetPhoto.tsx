@@ -2,8 +2,8 @@ import type { PhotoPlaceholder } from "@/lib/types";
 import type { CSSProperties, ReactNode } from "react";
 
 /**
- * Placeholder pet photo — the mocks use an emoji on a warm gradient wherever a
- * real user-uploaded photo will live. Swap internals for next/image later.
+ * Pet photo. Renders the uploaded S3 image when `photo.url` is set; otherwise
+ * falls back to the mock's emoji-on-gradient placeholder.
  */
 export default function PetPhoto({
   photo,
@@ -23,9 +23,14 @@ export default function PetPhoto({
       className={`relative flex items-center justify-center overflow-hidden ${className}`}
       style={{ background: photo.gradient, ...style }}
     >
-      <span style={{ fontSize: emojiSize }} aria-hidden>
-        {photo.emoji}
-      </span>
+      {photo.url ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={photo.url} alt="" className="absolute inset-0 h-full w-full object-cover" />
+      ) : (
+        <span style={{ fontSize: emojiSize }} aria-hidden>
+          {photo.emoji}
+        </span>
+      )}
       {children}
     </div>
   );
