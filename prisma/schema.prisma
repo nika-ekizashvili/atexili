@@ -1,15 +1,13 @@
-// Atexili data model.
-// Dev runs on SQLite so a fresh clone works with zero setup; the schema avoids
-// SQLite-only shapes so moving to Postgres is: provider = "postgresql" +
-// DATABASE_URL + `prisma migrate dev`. (JSON-ish fields are encoded strings
-// for SQLite compatibility — promote to Json columns on Postgres.)
+// Atexili data model — PostgreSQL (dev/prod parity via docker-compose).
+// `photos` / `healthTags` stay as encoded String columns (the app JSON-parses
+// them); promote to `Json` in a later migration if you want to query inside.
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
 }
 
 model User {

@@ -1,10 +1,10 @@
 import { PrismaClient } from "@prisma/client";
-import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
+import { PrismaPg } from "@prisma/adapter-pg";
 
-// Prisma 7: the client connects through a driver adapter (Rust-free client).
-// Swap this adapter (e.g. @prisma/adapter-pg) when moving to Postgres.
-const adapter = new PrismaBetterSqlite3({
-  url: process.env.DATABASE_URL ?? "file:./dev.db",
+// Prisma 7 connects through a driver adapter. PostgreSQL in every environment
+// (docker-compose gives dev the same engine as prod).
+const adapter = new PrismaPg({
+  connectionString: process.env.DATABASE_URL,
 });
 
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };

@@ -2,13 +2,19 @@
 // with ლუნა + ბობი, four candidate pets owned by other users, existing
 // matches and the თომა chat thread — mirroring the design-handoff fixtures.
 import prismaPkg from "@prisma/client";
-import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
+import { PrismaPg } from "@prisma/adapter-pg";
 import bcrypt from "bcryptjs";
 
+// Load .env for local runs (`npm run db:seed`); in containers DATABASE_URL
+// comes from the real environment and there's no .env file.
+try {
+  process.loadEnvFile();
+} catch {
+  // no .env — rely on process.env (e.g. docker-compose)
+}
+
 const { PrismaClient } = prismaPkg;
-const adapter = new PrismaBetterSqlite3({
-  url: process.env.DATABASE_URL ?? "file:./dev.db",
-});
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 const prisma = new PrismaClient({ adapter });
 
 const G = {
