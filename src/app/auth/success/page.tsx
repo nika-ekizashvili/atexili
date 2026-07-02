@@ -1,23 +1,13 @@
 "use client";
 
-import { Suspense } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Check } from "lucide-react";
 import HeartCat from "@/components/HeartCat";
 import { Button, Screen } from "@/components/ui";
-import { useApp } from "@/lib/store";
 
 /** s8 — Account ready (HeartCat mood=calm + success badge). */
-function SuccessScreen() {
+export default function SuccessPage() {
   const router = useRouter();
-  const params = useSearchParams();
-  const register = useApp((s) => s.register);
-  const name = params.get("name") || "ნიკა";
-
-  const finish = (to: string) => {
-    register(name);
-    router.replace(to);
-  };
 
   return (
     <Screen padded={false} className="px-[26px] pb-11 pt-[calc(env(safe-area-inset-top)+52px)]">
@@ -40,19 +30,11 @@ function SuccessScreen() {
         </div>
       </div>
       <div className="relative flex flex-col gap-3">
-        <Button onClick={() => finish("/onboarding/profile")}>ცხოველის დამატება</Button>
-        <Button variant="ghost" onClick={() => finish("/pets")}>
+        <Button onClick={() => router.replace("/onboarding/profile")}>ცხოველის დამატება</Button>
+        <Button variant="ghost" onClick={() => router.replace("/pets")}>
           მოგვიანებით
         </Button>
       </div>
     </Screen>
-  );
-}
-
-export default function SuccessPage() {
-  return (
-    <Suspense>
-      <SuccessScreen />
-    </Suspense>
   );
 }

@@ -70,8 +70,7 @@ export default function OwnerProfilePage() {
         className="mt-[18px]"
         disabled={!name.trim()}
         onClick={() => {
-          updateOwner({ name: name.trim(), location });
-          router.push("/pets/new");
+          void updateOwner({ name: name.trim(), location }).then(() => router.push("/pets/new"));
         }}
       >
         გაგრძელება

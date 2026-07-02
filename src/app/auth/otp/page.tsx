@@ -3,12 +3,12 @@
 import { Suspense, useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { BackButton, Button, Screen } from "@/components/ui";
+import { api } from "@/lib/api";
 
 /** s5 — OTP entry (6 boxes, resend countdown). */
 function OtpScreen() {
   const router = useRouter();
   const params = useSearchParams();
-  const name = params.get("name") ?? "";
   const phone = params.get("phone") ?? "599 12 34 56";
   const [code, setCode] = useState("");
   const [countdown, setCountdown] = useState(24);
@@ -77,7 +77,10 @@ function OtpScreen() {
       </div>
       <Button
         disabled={code.length !== 6}
-        onClick={() => router.push(`/auth/success?name=${encodeURIComponent(name)}`)}
+        onClick={() => {
+          void api("/api/me", { method: "PATCH", body: { phone: `+995 ${phone}` } }).catch(() => {});
+          router.push("/auth/success");
+        }}
       >
         დადასტურება
       </Button>

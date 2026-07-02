@@ -9,16 +9,18 @@ import Sheet from "@/components/Sheet";
 import BlockDialog from "@/components/BlockDialog";
 import { BackButton, VerifiedBadge } from "@/components/ui";
 import { GRADIENTS } from "@/lib/data";
-import { getCandidate, useApp } from "@/lib/store";
+import { useApp } from "@/lib/store";
+import { useBootstrapped } from "@/lib/useBootstrapped";
 import type { Message } from "@/lib/types";
 
 /** ch2 — chat thread, plus ca1/ca2 — attachment sheet & rich messages. */
 export default function ChatThreadPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const router = useRouter();
+  const ready = useBootstrapped();
   const s = useApp();
-  const candidate = getCandidate(id);
-  const conversation = s.conversations.find((c) => c.id === id);
+  const conversation = s.matches.find((m) => m.id === id);
+  const candidate = conversation?.candidate;
   const [text, setText] = useState("");
   const [attachOpen, setAttachOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -26,21 +28,19 @@ export default function ChatThreadPage({ params }: { params: Promise<{ id: strin
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    s.markRead(id);
+    if (conversation) s.markRead(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  }, [id, conversation !== undefined]);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "instant", block: "end" });
   }, [conversation?.messages.length]);
 
-  if (!candidate || !conversation) return null;
+  if (!ready) return null;
+  if (!conversation || !candidate) return null;
 
-  const now = () =>
-    new Date().toLocaleTimeString("ka-GE", { hour: "2-digit", minute: "2-digit" });
-
-  const send = (msg: Omit<Message, "id" | "time">) => {
-    s.sendMessage(id, { ...msg, id: `m-${Date.now().toString(36)}`, time: now() });
+  const send = (msg: Pick<Message, "kind" | "text" | "photo" | "place">) => {
+    void s.sendMessage(id, msg);
     setAttachOpen(false);
   };
 
@@ -161,18 +161,18 @@ export default function ChatThreadPage({ params }: { params: Promise<{ id: strin
           onChange={(e) => setText(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter" && text.trim()) {
-              send({ from: "me", kind: "text", text: text.trim() });
+              send({ kind: "text", text: text.trim() });
               setText("");
             }
           }}
           placeholder="მესიჯი..."
-          className="h-[46px] flex-1 rounded-full bg-fill px-[18px] text-[15px] text-ink outline-none"
+          className="h-[46px] min-w-0 flex-1 rounded-full bg-fill px-[18px] text-[15px] text-ink outline-none"
         />
         <button
           aria-label="გაგზავნა"
           onClick={() => {
             if (!text.trim()) return;
-            send({ from: "me", kind: "text", text: text.trim() });
+            send({ kind: "text", text: text.trim() });
             setText("");
           }}
           className="flex h-[46px] w-[46px] flex-none cursor-pointer items-center justify-center rounded-full bg-primary text-white shadow-[0_6px_14px_-6px_rgba(226,100,59,0.6)] transition-transform duration-[160ms] hover:-translate-y-0.5 active:scale-95"
@@ -188,19 +188,19 @@ export default function ChatThreadPage({ params }: { params: Promise<{ id: strin
             icon="🖼️"
             iconBg="bg-terracotta-100"
             label="ფოტოები"
-            onClick={() => send({ from: "me", kind: "image", photo: { gradient: GRADIENTS.peachGold, emoji: "🐈" } })}
+            onClick={() => send({ kind: "image", photo: { gradient: GRADIENTS.peachGold, emoji: "🐈" } })}
           />
           <AttachTile
             icon="📷"
             iconBg="bg-chip-green"
             label="კამერა"
-            onClick={() => send({ from: "me", kind: "image", photo: { gradient: GRADIENTS.coralWarm, emoji: "🐈" } })}
+            onClick={() => send({ kind: "image", photo: { gradient: GRADIENTS.coralWarm, emoji: "🐈" } })}
           />
           <AttachTile
             icon="📄"
             iconBg="bg-chip-gold"
             label="ჯანმ. დოკუმენტი"
-            onClick={() => send({ from: "me", kind: "text", text: "📄 ჯანმრთელობის დოკუმენტი — ვაქცინაციის ბარათი" })}
+            onClick={() => send({ kind: "text", text: "📄 ჯანმრთელობის დოკუმენტი — ვაქცინაციის ბარათი" })}
           />
           <AttachTile
             icon="📍"
@@ -208,7 +208,6 @@ export default function ChatThreadPage({ params }: { params: Promise<{ id: strin
             label="შეხვედრის ადგილი"
             onClick={() =>
               send({
-                from: "me",
                 kind: "location",
                 place: { name: "ვეტ-კლინიკა „ჯანმო“", address: "ვაკე, ჭავჭავაძის 42 · 2.1 კმ" },
               })
@@ -282,8 +281,7 @@ export default function ChatThreadPage({ params }: { params: Promise<{ id: strin
             name={candidate.name}
             onCancel={() => setBlockOpen(false)}
             onBlock={() => {
-              s.block(candidate.id);
-              router.replace("/matches");
+              void s.block(candidate.id).then(() => router.replace("/matches"));
             }}
           />
         )}

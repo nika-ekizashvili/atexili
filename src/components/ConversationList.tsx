@@ -3,15 +3,14 @@
 import Link from "next/link";
 import PetPhoto from "@/components/PetPhoto";
 import { VerifiedBadge } from "@/components/ui";
-import { getCandidate, useApp } from "@/lib/store";
+import { useApp } from "@/lib/store";
 
 export default function ConversationList() {
-  const { conversations } = useApp();
+  const { matches } = useApp();
   return (
     <div className="flex flex-col">
-      {conversations.map((conv, i) => {
-        const c = getCandidate(conv.candidateId);
-        if (!c) return null;
+      {matches.map((conv, i) => {
+        const c = conv.candidate;
         const last = conv.messages[conv.messages.length - 1];
         const preview =
           last?.kind === "image"
@@ -24,7 +23,7 @@ export default function ConversationList() {
           <Link
             key={conv.id}
             href={`/chats/${conv.id}`}
-            className={`flex items-center gap-3.5 py-3.5 ${i < conversations.length - 1 ? "border-b border-fill" : ""}`}
+            className={`flex items-center gap-3.5 py-3.5 ${i < matches.length - 1 ? "border-b border-fill" : ""}`}
           >
             <PetPhoto photo={c.photos[0]} emojiSize={26} className="h-14 w-14 flex-none rounded-full" />
             <span className="min-w-0 flex-1">

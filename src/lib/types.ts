@@ -24,6 +24,8 @@ export interface Pet {
   healthTags: string[];
   intent: Intent;
   verified: boolean;
+  /** own pets only: live counters for the My Pets hub */
+  stats?: { likes: number; matches: number; newChats: number };
 }
 
 /** A pet in the swipe deck (someone else's animal). */
@@ -40,6 +42,15 @@ export interface Owner {
   location: string;
   about: string;
   verification: VerificationStatus;
+  email?: string;
+  phone?: string | null;
+}
+
+export interface Settings {
+  notifyMatch: boolean;
+  notifyMessage: boolean;
+  notifyTips: boolean;
+  shareLocation: boolean;
 }
 
 export type MessageKind = "text" | "image" | "location";
@@ -55,9 +66,10 @@ export interface Message {
   read?: boolean;
 }
 
-export interface Conversation {
-  id: string; // = candidate id
-  candidateId: string;
+/** A match with its conversation, as served by the API. */
+export interface MatchView {
+  id: string; // match id
+  candidate: Candidate;
   messages: Message[];
   unread: number;
   lastTime: string;

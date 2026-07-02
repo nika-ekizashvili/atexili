@@ -5,16 +5,32 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { PasswordField } from "@/components/auth";
 import { BackButton, Button, Checkbox, FieldLabel, Screen, TextInput } from "@/components/ui";
+import { useApp } from "@/lib/store";
 
-/** s2 — Register. */
+/** s2 — Register. Creates the account, then continues to phone verification. */
 export default function RegisterPage() {
   const router = useRouter();
+  const register = useApp((s) => s.register);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [agreed, setAgreed] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
 
   const valid = name.trim() && email.includes("@") && password.length >= 8 && agreed;
+
+  const submit = async () => {
+    setBusy(true);
+    setError(null);
+    try {
+      await register(name.trim(), email, password);
+      router.push("/auth/phone");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "რეგისტრაცია ვერ მოხერხდა");
+      setBusy(false);
+    }
+  };
 
   return (
     <Screen>
@@ -49,13 +65,14 @@ export default function RegisterPage() {
             <b className="text-primary-hover">კონფიდენციალურობის პოლიტიკას</b>.
           </span>
         </div>
+        {error && (
+          <p className="rounded-xl bg-danger-soft px-3.5 py-3 text-[13px] font-semibold text-danger">
+            {error}
+          </p>
+        )}
       </div>
-      <Button
-        className="mt-[18px]"
-        disabled={!valid}
-        onClick={() => router.push(`/auth/phone?name=${encodeURIComponent(name.trim())}`)}
-      >
-        გაგრძელება
+      <Button className="mt-[18px]" disabled={!valid || busy} onClick={() => void submit()}>
+        {busy ? "..." : "გაგრძელება"}
       </Button>
       <p className="mt-4 text-center text-sm font-medium text-ink-muted">
         უკვე გაქვს ანგარიში?{" "}

@@ -9,10 +9,12 @@ import type { Candidate, Pet } from "@/lib/types";
 export default function MatchOverlay({
   pet,
   candidate,
+  chatId,
   onClose,
 }: {
   pet: Pet;
   candidate: Candidate;
+  chatId: string;
   onClose: () => void;
 }) {
   const router = useRouter();
@@ -50,7 +52,7 @@ export default function MatchOverlay({
           />
         </div>
         <button
-          onClick={() => router.push(`/chats/${candidate.id}`)}
+          onClick={() => router.push(`/chats/${chatId}`)}
           className="mb-3 h-[54px] w-full max-w-[300px] cursor-pointer rounded-2xl bg-white text-[17px] font-extrabold text-primary-hover transition-transform duration-[160ms] hover:-translate-y-px"
         >
           გაუგზავნე შეტყობინება

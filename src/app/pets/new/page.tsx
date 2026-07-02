@@ -23,6 +23,7 @@ import {
 } from "@/components/ui";
 import { BREEDS, GRADIENTS } from "@/lib/data";
 import { useApp } from "@/lib/store";
+import { useBootstrapped } from "@/lib/useBootstrapped";
 import type { Gender, Intent, PhotoPlaceholder, Species } from "@/lib/types";
 
 const SPECIES: { value: Species; emoji: string; label: string }[] = [
@@ -44,14 +45,17 @@ const PLACEHOLDER_POOL = [
 /** D — Add Pet wizard, 6 steps (p1–p6). */
 export default function AddPetPage() {
   const router = useRouter();
+  const ready = useBootstrapped();
   const { pets, addPet, notifPrimed } = useApp();
   const [step, setStep] = useState(1);
+  const [busy, setBusy] = useState(false);
 
   const [species, setSpecies] = useState<Species>("cat");
   const [name, setName] = useState("");
   const [breed, setBreed] = useState("");
   const [gender, setGender] = useState<Gender>("female");
   const [birthdate, setBirthdate] = useState("");
+  const [ageYears, setAgeYears] = useState(0);
   const [photos, setPhotos] = useState<PhotoPlaceholder[]>([]);
   const [health, setHealth] = useState({ vaccinated: true, tested: true, docs: false });
   const [healthTags, setHealthTags] = useState<string[]>(["ვაქცინირებული", "დეჰელმინთიზაცია"]);
@@ -59,12 +63,13 @@ export default function AddPetPage() {
   const [breedSheet, setBreedSheet] = useState(false);
 
   const speciesEmoji = SPECIES.find((s) => s.value === species)!.emoji;
-  const ageYears = birthdate
-    ? Math.max(0, Math.floor((Date.now() - new Date(birthdate).getTime()) / 3.15576e10))
-    : 0;
-  const birthLabel = birthdate
-    ? `${new Date(birthdate).toLocaleDateString("ka-GE", { month: "long", year: "numeric" })} · ${ageYears} წლის`
-    : "";
+
+  const changeBirthdate = (value: string) => {
+    setBirthdate(value);
+    setAgeYears(
+      value ? Math.max(0, Math.floor((Date.now() - new Date(value).getTime()) / 3.15576e10)) : 0,
+    );
+  };
 
   const canContinue =
     step === 1 ||
@@ -72,24 +77,29 @@ export default function AddPetPage() {
     (step === 3 && photos.length >= 1) ||
     step >= 4;
 
-  const publish = () => {
-    addPet({
-      id: `pet-${Date.now().toString(36)}`,
-      name: name.trim(),
-      species,
-      breed,
-      gender,
-      birthLabel: birthLabel.split(" ·")[0],
-      ageYears,
-      photos,
-      bio: "მეგობრული და მოსიყვარულე — უყვარს თამაში და ყურადღება 🐾",
-      health,
-      healthTags,
-      intent,
-      verified: false,
-    });
-    router.replace(pets.length === 0 && !notifPrimed ? "/notifications" : "/pets");
+  const publish = async () => {
+    setBusy(true);
+    const isFirst = pets.length === 0;
+    try {
+      await addPet({
+        name: name.trim(),
+        species,
+        breed,
+        gender,
+        birthdate,
+        photos,
+        bio: "მეგობრული და მოსიყვარულე — უყვარს თამაში და ყურადღება 🐾",
+        health,
+        healthTags,
+        intent,
+      });
+      router.replace(isFirst && !notifPrimed ? "/notifications" : "/pets");
+    } catch {
+      setBusy(false);
+    }
   };
+
+  if (!ready) return null;
 
   const headings: Record<number, [string, string]> = {
     1: ["რომელი ცხოველია?", "დასტას სახეობის მიხედვით ვფილტრავთ — კატა კატასთან, ძაღლი ძაღლთან."],
@@ -189,7 +199,7 @@ export default function AddPetPage() {
                   <input
                     type="date"
                     value={birthdate}
-                    onChange={(e) => setBirthdate(e.target.value)}
+                    onChange={(e) => changeBirthdate(e.target.value)}
                     className="flex-1 bg-transparent text-base font-semibold text-ink outline-none"
                   />
                   {birthdate && (
@@ -364,10 +374,10 @@ export default function AddPetPage() {
 
       <div className="mt-4 flex flex-col gap-1">
         <Button
-          disabled={!canContinue}
-          onClick={() => (step < 6 ? setStep(step + 1) : publish())}
+          disabled={!canContinue || busy}
+          onClick={() => (step < 6 ? setStep(step + 1) : void publish())}
         >
-          {step < 6 ? "გაგრძელება" : "გამოქვეყნება"}
+          {step < 6 ? "გაგრძელება" : busy ? "..." : "გამოქვეყნება"}
         </Button>
         {step === 6 && (
           <Button variant="ghost" className="h-12" onClick={() => setStep(2)}>

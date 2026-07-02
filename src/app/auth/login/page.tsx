@@ -14,6 +14,20 @@ export default function LoginPage() {
   const login = useApp((s) => s.login);
   const [email, setEmail] = useState("nika@example.ge");
   const [password, setPassword] = useState("123456789");
+  const [error, setError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+
+  const submit = async () => {
+    setBusy(true);
+    setError(null);
+    try {
+      await login(email, password);
+      router.replace("/discover");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "შესვლა ვერ მოხერხდა");
+      setBusy(false);
+    }
+  };
 
   return (
     <Screen>
@@ -40,15 +54,14 @@ export default function LoginPage() {
             </Link>
           }
         />
+        {error && (
+          <p className="rounded-xl bg-danger-soft px-3.5 py-3 text-[13px] font-semibold text-danger">
+            {error}
+          </p>
+        )}
       </div>
-      <Button
-        disabled={!email.includes("@") || password.length < 6}
-        onClick={() => {
-          login();
-          router.replace("/discover");
-        }}
-      >
-        შესვლა
+      <Button disabled={!email.includes("@") || password.length < 6 || busy} onClick={() => void submit()}>
+        {busy ? "..." : "შესვლა"}
       </Button>
       <div className="my-[18px]">
         <OrDivider />

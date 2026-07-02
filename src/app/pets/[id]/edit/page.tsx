@@ -8,12 +8,14 @@ import PetPhoto from "@/components/PetPhoto";
 import { BackButton, FieldLabel, Segmented, TextInput } from "@/components/ui";
 import { GRADIENTS } from "@/lib/data";
 import { useApp } from "@/lib/store";
+import { useBootstrapped } from "@/lib/useBootstrapped";
 import type { Intent, PhotoPlaceholder } from "@/lib/types";
 
 /** ed2 — edit pet (photo grid, name, bio, intent, delete). */
 export default function EditPetPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const router = useRouter();
+  const ready = useBootstrapped();
   const { pets, updatePet, deletePet } = useApp();
   const pet = pets.find((p) => p.id === id);
 
@@ -23,7 +25,7 @@ export default function EditPetPage({ params }: { params: Promise<{ id: string }
   const [photos, setPhotos] = useState<PhotoPlaceholder[]>(pet?.photos ?? []);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
-  if (!pet) return null;
+  if (!ready || !pet) return null;
 
   return (
     <div className="flex min-h-dvh flex-col pt-[calc(env(safe-area-inset-top)+20px)]">
@@ -32,8 +34,9 @@ export default function EditPetPage({ params }: { params: Promise<{ id: string }
         <span className="text-[17px] font-extrabold text-ink">{pet.name}ს რედაქტირება</span>
         <button
           onClick={() => {
-            updatePet(id, { name: name.trim() || pet.name, bio, intent, photos });
-            router.back();
+            void updatePet(id, { name: name.trim() || pet.name, bio, intent, photos }).then(() =>
+              router.back(),
+            );
           }}
           className="cursor-pointer text-[15px] font-extrabold text-primary-hover"
         >
@@ -151,8 +154,7 @@ export default function EditPetPage({ params }: { params: Promise<{ id: string }
               <div className="flex flex-col gap-2.5">
                 <button
                   onClick={() => {
-                    deletePet(id);
-                    router.replace("/pets");
+                    void deletePet(id).then(() => router.replace("/pets"));
                   }}
                   className="h-[50px] cursor-pointer rounded-[14px] bg-danger text-base font-extrabold text-white hover:brightness-95"
                 >

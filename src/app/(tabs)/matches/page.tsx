@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import ConversationList from "@/components/ConversationList";
 import PetPhoto from "@/components/PetPhoto";
 import { Button, SectionLabel } from "@/components/ui";
-import { getCandidate, useApp } from "@/lib/store";
+import { useApp } from "@/lib/store";
 
 /** ch1 — Matches: new-matches rail + conversation list. Empty → nt3. */
 export default function MatchesPage() {
@@ -36,9 +36,7 @@ export default function MatchesPage() {
     );
   }
 
-  const newMatches = matches
-    .map(getCandidate)
-    .filter((c): c is NonNullable<ReturnType<typeof getCandidate>> => !!c);
+  const newMatches = matches;
 
   return (
     <div className="flex flex-1 flex-col pt-[calc(env(safe-area-inset-top)+20px)]">
@@ -52,14 +50,14 @@ export default function MatchesPage() {
           <SectionLabel tone="terracotta">ახალი დამთხვევები</SectionLabel>
         </div>
         <div className="no-scrollbar flex gap-3.5 overflow-x-auto px-[22px]">
-          {newMatches.map((c) => (
-            <Link key={c.id} href={`/chats/${c.id}`} className="flex flex-none flex-col items-center gap-1.5">
+          {newMatches.map((m) => (
+            <Link key={m.id} href={`/chats/${m.id}`} className="flex flex-none flex-col items-center gap-1.5">
               <PetPhoto
-                photo={c.photos[0]}
+                photo={m.candidate.photos[0]}
                 emojiSize={30}
                 className="h-[66px] w-[66px] rounded-full border-[3px] border-primary"
               />
-              <span className="text-xs font-bold text-ink-label">{c.name}</span>
+              <span className="text-xs font-bold text-ink-label">{m.candidate.name}</span>
             </Link>
           ))}
         </div>

@@ -3,11 +3,15 @@
 import { useRouter } from "next/navigation";
 import { BackButton, Banner, Button, Screen } from "@/components/ui";
 import { useApp } from "@/lib/store";
+import { useBootstrapped } from "@/lib/useBootstrapped";
 
 /** st2 — irreversible account deletion. */
 export default function DeleteAccountPage() {
   const router = useRouter();
+  const ready = useBootstrapped();
   const { pets, matches, deleteAccount } = useApp();
+
+  if (!ready) return null;
 
   return (
     <Screen>
@@ -40,8 +44,7 @@ export default function DeleteAccountPage() {
         variant="destructive"
         className="mt-4"
         onClick={() => {
-          deleteAccount();
-          router.replace("/");
+          void deleteAccount().then(() => router.replace("/"));
         }}
       >
         სამუდამოდ წაშლა

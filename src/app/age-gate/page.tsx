@@ -13,7 +13,14 @@ export default function AgeGatePage() {
   const [agreed, setAgreed] = useState(false);
   const [blocked, setBlocked] = useState(false);
 
-  const age = dob ? Math.floor((Date.now() - new Date(dob).getTime()) / 3.15576e10) : 0;
+  const confirm = () => {
+    const age = dob ? Math.floor((Date.now() - new Date(dob).getTime()) / 3.15576e10) : 0;
+    if (age < 18) setBlocked(true);
+    else {
+      passAgeGate();
+      router.replace("/intro");
+    }
+  };
 
   if (blocked) {
     return (
@@ -75,16 +82,7 @@ export default function AgeGatePage() {
             <b className="text-primary-hover">პირობებს</b>.
           </span>
         </div>
-        <Button
-          disabled={!agreed || !dob}
-          onClick={() => {
-            if (age < 18) setBlocked(true);
-            else {
-              passAgeGate();
-              router.replace("/intro");
-            }
-          }}
-        >
+        <Button disabled={!agreed || !dob} onClick={confirm}>
           დადასტურება
         </Button>
         <p className="mt-1.5 text-center text-xs font-medium leading-relaxed text-ink-faint">

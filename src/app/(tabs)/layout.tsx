@@ -8,13 +8,18 @@ import { useApp } from "@/lib/store";
 /** Shell for the four top-level destinations — persistent bottom nav. */
 export default function TabsLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const { hasHydrated, authed } = useApp();
+  const { hasHydrated, authed, bootstrapped, loadBootstrap } = useApp();
 
   useEffect(() => {
-    if (hasHydrated && !authed) router.replace("/");
-  }, [hasHydrated, authed, router]);
+    if (!hasHydrated) return;
+    if (!authed) {
+      router.replace("/");
+      return;
+    }
+    if (!bootstrapped) void loadBootstrap();
+  }, [hasHydrated, authed, bootstrapped, loadBootstrap, router]);
 
-  if (!hasHydrated) return null;
+  if (!hasHydrated || !authed) return null;
 
   return (
     <div className="flex min-h-dvh flex-col pb-[calc(env(safe-area-inset-bottom)+74px)]">

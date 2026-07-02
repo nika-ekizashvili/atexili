@@ -1,30 +1,45 @@
 "use client";
 
-import { use, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
 import { Check, ChevronLeft, ChevronRight, Flag, Heart, RotateCcw, X } from "lucide-react";
 import PetPhoto from "@/components/PetPhoto";
 import MatchOverlay from "@/components/swipe/MatchOverlay";
 import { PhotoPill, SectionLabel, VerifiedBadge } from "@/components/ui";
-import { getCandidate, useApp } from "@/lib/store";
+import { api } from "@/lib/api";
+import { findKnownCandidate, useApp } from "@/lib/store";
+import { useBootstrapped } from "@/lib/useBootstrapped";
+import type { Candidate, MatchView } from "@/lib/types";
 
 /** F — full pet profile (tap-to-expand from the deck). */
 export default function PetDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const router = useRouter();
+  const ready = useBootstrapped();
   const s = useApp();
-  const candidate = getCandidate(id);
+  const known = findKnownCandidate(s, id);
+  const [fetched, setFetched] = useState<Candidate | null>(null);
   const [photoIndex, setPhotoIndex] = useState(0);
-  const [matched, setMatched] = useState(false);
+  const [matched, setMatched] = useState<MatchView | null>(null);
   const pet = s.pets.find((p) => p.id === s.activePetId) ?? s.pets[0];
+  const candidate = known ?? fetched;
 
-  if (!candidate) return null;
+  useEffect(() => {
+    if (ready && !known && !fetched) {
+      void api<{ candidate: Candidate }>(`/api/pets/${id}`)
+        .then((d) => setFetched(d.candidate))
+        .catch(() => router.replace("/discover"));
+    }
+  }, [ready, known, fetched, id, router]);
+
+  if (!ready || !candidate) return null;
 
   const like = () => {
-    const isMatch = s.likeCurrent(candidate);
-    if (isMatch) setMatched(true);
-    else router.back();
+    void s.likeCurrent(candidate).then((match) => {
+      if (match) setMatched(match);
+      else router.back();
+    });
   };
 
   return (
@@ -108,7 +123,7 @@ export default function PetDetailPage({ params }: { params: Promise<{ id: string
         <section>
           <SectionLabel tone="terracotta">დეტალები</SectionLabel>
           <div className="grid grid-cols-2 gap-2.5">
-            <DetailCell label="სახეობა" value="🐈 კატა" />
+            <DetailCell label="სახეობა" value={speciesLabel(candidate.species)} />
             <DetailCell label="ჯიში" value={candidate.breed.split(" ")[0]} />
             <DetailCell label="სქესი" value={candidate.gender === "male" ? "♂ მამრი" : "♀ მდედრი"} />
             <DetailCell label="ასაკი" value={`${candidate.ageYears} წლის`} />
@@ -140,7 +155,7 @@ export default function PetDetailPage({ params }: { params: Promise<{ id: string
           <button
             aria-label="გამოტოვება"
             onClick={() => {
-              s.advanceDeck();
+              void s.nopeCurrent(candidate);
               router.back();
             }}
             className="flex h-14 w-14 cursor-pointer items-center justify-center rounded-full border border-line bg-surface text-nope shadow-[0_8px_18px_-8px_rgba(82,31,18,0.32)] transition-transform duration-[160ms] hover:-translate-y-0.5 active:scale-95"
@@ -166,11 +181,20 @@ export default function PetDetailPage({ params }: { params: Promise<{ id: string
 
       <AnimatePresence>
         {matched && pet && (
-          <MatchOverlay pet={pet} candidate={candidate} onClose={() => router.back()} />
+          <MatchOverlay
+            pet={pet}
+            candidate={matched.candidate}
+            chatId={matched.id}
+            onClose={() => router.back()}
+          />
         )}
       </AnimatePresence>
     </div>
   );
+}
+
+function speciesLabel(species: string) {
+  return { cat: "🐈 კატა", dog: "🐕 ძაღლი", bird: "🐦 ფრინველი", other: "🐾 სხვა" }[species] ?? species;
 }
 
 function HealthLine({ icon, iconBg, label }: { icon: string; iconBg: string; label: string }) {

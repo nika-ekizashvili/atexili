@@ -5,12 +5,16 @@ import { useRouter } from "next/navigation";
 import { Check, Star } from "lucide-react";
 import { BackButton, Banner, Button, Screen } from "@/components/ui";
 import { useApp } from "@/lib/store";
+import { useBootstrapped } from "@/lib/useBootstrapped";
 
 /** I — verification: v1 request → v2 pending timeline. */
 export default function VerificationPage() {
   const router = useRouter();
+  const ready = useBootstrapped();
   const { verification, submitVerification } = useApp();
   const [petDocUploaded, setPetDocUploaded] = useState(false);
+
+  if (!ready) return null;
 
   if (verification === "pending" || verification === "verified") {
     return (
@@ -133,7 +137,7 @@ export default function VerificationPage() {
       <Button
         className="mt-4"
         disabled={!petDocUploaded}
-        onClick={() => submitVerification()}
+        onClick={() => void submitVerification()}
       >
         გაგზავნა განსახილველად
       </Button>

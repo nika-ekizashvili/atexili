@@ -1,12 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { DualSlider, Slider } from "@/components/Slider";
 import { Button, Toggle } from "@/components/ui";
-import { defaultFilters } from "@/lib/data";
-import { selectDeck, useApp } from "@/lib/store";
-import type { Filters, Species } from "@/lib/types";
+import { api } from "@/lib/api";
+import { defaultFiltersFor, useApp } from "@/lib/store";
+import { useBootstrapped } from "@/lib/useBootstrapped";
+import type { Candidate, Filters, Species } from "@/lib/types";
 
 const SPECIES: { value: Species; emoji: string; label: string }[] = [
   { value: "cat", emoji: "🐈", label: "კატა" },
@@ -18,23 +19,45 @@ const SPECIES: { value: Species; emoji: string; label: string }[] = [
 /** fl1 — Filters (deck is pre-filtered; count updates live). */
 export default function FiltersPage() {
   const router = useRouter();
+  const ready = useBootstrapped();
   const s = useApp();
   const activePet = s.pets.find((p) => p.id === s.activePetId) ?? s.pets[0];
   const [draft, setDraft] = useState<Filters>(s.filters);
+  const [count, setCount] = useState<number | null>(null);
 
-  const count = useMemo(
-    () => selectDeck({ filters: draft, blocked: s.blocked }).length,
-    [draft, s.blocked],
-  );
+  // live candidate count for the draft filters
+  useEffect(() => {
+    if (!ready || !activePet) return;
+    const params = new URLSearchParams({
+      petId: activePet.id,
+      species: draft.species,
+      gender: draft.gender,
+      distanceKm: String(draft.distanceKm),
+      ageMin: String(draft.ageRange[0]),
+      ageMax: String(draft.ageRange[1]),
+      verifiedOnly: String(draft.verifiedOnly),
+    });
+    let cancelled = false;
+    void api<{ candidates: Candidate[] }>(`/api/deck?${params}`)
+      .then((d) => {
+        if (!cancelled) setCount(d.candidates.length);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [ready, activePet, draft]);
 
   const set = (patch: Partial<Filters>) => setDraft((d) => ({ ...d, ...patch }));
+
+  if (!ready) return null;
 
   return (
     <div className="flex min-h-dvh flex-col pt-[calc(env(safe-area-inset-top)+20px)]">
       <div className="flex items-center justify-between px-[22px] pb-4 pt-2">
         <h2 className="text-[26px] font-extrabold text-ink">ფილტრები</h2>
         <button
-          onClick={() => setDraft(defaultFilters)}
+          onClick={() => setDraft(defaultFiltersFor(activePet))}
           className="cursor-pointer text-sm font-bold text-primary-hover"
         >
           განულება
@@ -172,7 +195,7 @@ export default function FiltersPage() {
             router.back();
           }}
         >
-          {count} კანდიდატის ჩვენება
+          {count === null ? "კანდიდატების ჩვენება" : `${count} კანდიდატის ჩვენება`}
         </Button>
       </div>
     </div>

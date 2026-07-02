@@ -4,7 +4,8 @@ import { use, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Check } from "lucide-react";
 import { BackButton, Button, Screen } from "@/components/ui";
-import { getCandidate, useApp } from "@/lib/store";
+import { findKnownCandidate, useApp } from "@/lib/store";
+import { useBootstrapped } from "@/lib/useBootstrapped";
 import type { ReportReason } from "@/lib/types";
 
 const REASONS: { value: ReportReason; label: string }[] = [
@@ -20,10 +21,13 @@ const REASONS: { value: ReportReason; label: string }[] = [
 export default function ReportPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const router = useRouter();
-  const { report } = useApp();
-  const candidate = getCandidate(id);
+  const ready = useBootstrapped();
+  const s = useApp();
+  const candidate = findKnownCandidate(s, id);
   const [reason, setReason] = useState<ReportReason | null>(null);
   const [sent, setSent] = useState(false);
+
+  if (!ready) return null;
 
   if (sent) {
     return (
@@ -93,8 +97,7 @@ export default function ReportPage({ params }: { params: Promise<{ id: string }>
         className="mt-4"
         disabled={!reason}
         onClick={() => {
-          if (reason) report(id, reason);
-          setSent(true);
+          if (reason) void s.report(id, reason).then(() => setSent(true));
         }}
       >
         საჩივრის გაგზავნა

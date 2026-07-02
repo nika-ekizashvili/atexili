@@ -1,14 +1,12 @@
 "use client";
 
 import { Suspense, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { BackButton, Banner, Button, FieldLabel, Screen, TextInput } from "@/components/ui";
 
 /** s4 — Phone verification. */
 function PhoneScreen() {
   const router = useRouter();
-  const params = useSearchParams();
-  const name = params.get("name") ?? "";
   const [phone, setPhone] = useState("");
 
   return (
@@ -43,11 +41,7 @@ function PhoneScreen() {
       </div>
       <Button
         disabled={phone.replace(/\D/g, "").length < 9}
-        onClick={() =>
-          router.push(
-            `/auth/otp?name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}`,
-          )
-        }
+        onClick={() => router.push(`/auth/otp?phone=${encodeURIComponent(phone)}`)}
       >
         კოდის გაგზავნა
       </Button>

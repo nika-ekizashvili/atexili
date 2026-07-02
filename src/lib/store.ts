@@ -2,95 +2,155 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import {
-  defaultFilters,
-  seedCandidates,
-  seedConversations,
-  seedOwner,
-  seedPets,
-} from "./data";
+import { api, ApiError } from "./api";
 import type {
   Candidate,
-  Conversation,
   Filters,
+  MatchView,
   Message,
   Owner,
   Pet,
   ReportReason,
+  Settings,
+  Species,
   VerificationStatus,
 } from "./types";
 
-interface Settings {
-  notifyMatch: boolean;
-  notifyMessage: boolean;
-  notifyTips: boolean;
-  shareLocation: boolean;
+interface BootstrapPayload {
+  owner: Owner;
+  settings: Settings;
+  pets: Pet[];
+  matches: MatchView[];
+  blockedCount: number;
+}
+
+interface AddPetInput {
+  name: string;
+  species: Species;
+  breed: string;
+  gender: "female" | "male";
+  birthdate: string; // ISO
+  bio: string;
+  photos: Pet["photos"];
+  health: Pet["health"];
+  healthTags: string[];
+  intent: Pet["intent"];
 }
 
 interface AppState {
   hasHydrated: boolean;
   setHasHydrated: (v: boolean) => void;
 
-  // gate / session
+  // local-only launch flags
   agePassed: boolean;
   introSeen: boolean;
-  authed: boolean;
   notifPrimed: boolean;
   passAgeGate: () => void;
   finishIntro: () => void;
-  /** Demo login — seeds the showcase account (Luna, matches, chats). */
-  login: () => void;
-  /** Fresh registration — empty account, walks through onboarding. */
-  register: (name: string) => void;
-  logout: () => void;
-  deleteAccount: () => void;
   primeNotifications: () => void;
+
+  // session
+  authed: boolean;
+  bootstrapped: boolean;
+  login: (email: string, password: string) => Promise<void>;
+  register: (name: string, email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
+  deleteAccount: () => Promise<void>;
+  /** Fetches everything after login / on app load. */
+  loadBootstrap: () => Promise<void>;
 
   // owner
   owner: Owner;
-  updateOwner: (patch: Partial<Owner>) => void;
   verification: VerificationStatus;
-  submitVerification: () => void;
+  settings: Settings;
+  blockedCount: number;
+  updateOwner: (patch: Partial<Owner>) => Promise<void>;
+  setSetting: (key: keyof Settings, value: boolean) => void;
+  submitVerification: () => Promise<void>;
 
   // pets
   pets: Pet[];
   activePetId: string | null;
-  addPet: (pet: Pet) => void;
-  updatePet: (id: string, patch: Partial<Pet>) => void;
-  deletePet: (id: string) => void;
+  addPet: (input: AddPetInput) => Promise<void>;
+  updatePet: (id: string, patch: Partial<Pet>) => Promise<void>;
+  deletePet: (id: string) => Promise<void>;
   setActivePet: (id: string) => void;
 
   // deck
+  deck: Candidate[];
   deckIndex: number;
-  likes: string[];
-  advanceDeck: () => void;
-  rewindDeck: () => void;
-  likeCurrent: (candidate: Candidate) => boolean; // returns true on mutual match
-  resetDeck: () => void;
+  deckLoading: boolean;
+  fetchDeck: () => Promise<void>;
+  likeCurrent: (candidate: Candidate) => Promise<MatchView | null>;
+  nopeCurrent: (candidate: Candidate) => Promise<void>;
+  rewindDeck: () => Promise<void>;
 
   // filters
   filters: Filters;
   setFilters: (patch: Partial<Filters>) => void;
-  resetFilters: () => void;
 
   // matches & chat
-  matches: string[]; // candidate ids
-  conversations: Conversation[];
-  sendMessage: (conversationId: string, message: Message) => void;
-  markRead: (conversationId: string) => void;
+  matches: MatchView[];
+  sendMessage: (
+    matchId: string,
+    input: Pick<Message, "kind" | "text" | "photo" | "place">,
+  ) => Promise<void>;
+  markRead: (matchId: string) => void;
 
   // safety
-  blocked: string[];
-  reports: { candidateId: string; reason: ReportReason }[];
-  block: (candidateId: string) => void;
-  unblock: (candidateId: string) => void;
-  report: (candidateId: string, reason: ReportReason) => void;
-
-  settings: Settings;
-  setSetting: (key: keyof Settings, value: boolean) => void;
+  block: (candidatePetId: string) => Promise<void>;
+  report: (candidatePetId: string, reason: ReportReason) => Promise<void>;
 }
 
-const freshOwner: Owner = { name: "", location: "თბილისი, საქართველო", about: "", verification: "none" };
+const emptyOwner: Owner = {
+  name: "",
+  location: "თბილისი, საქართველო",
+  about: "",
+  verification: "none",
+};
+
+const defaultSettings: Settings = {
+  notifyMatch: true,
+  notifyMessage: true,
+  notifyTips: false,
+  shareLocation: true,
+};
+
+export const defaultFiltersFor = (pet?: Pet | null): Filters => ({
+  species: pet?.species ?? "cat",
+  openToCompatibleBreeds: false,
+  gender: pet ? (pet.gender === "female" ? "male" : "female") : "male",
+  distanceKm: 10,
+  ageRange: [1, 6],
+  verifiedOnly: true,
+});
+
+function deckParams(petId: string, f: Filters): string {
+  return new URLSearchParams({
+    petId,
+    species: f.species,
+    gender: f.gender,
+    distanceKm: String(f.distanceKm),
+    ageMin: String(f.ageRange[0]),
+    ageMax: String(f.ageRange[1]),
+    verifiedOnly: String(f.verifiedOnly),
+  }).toString();
+}
+
+const loggedOutState = {
+  authed: false,
+  bootstrapped: false,
+  owner: emptyOwner,
+  verification: "none" as VerificationStatus,
+  settings: defaultSettings,
+  blockedCount: 0,
+  pets: [],
+  activePetId: null,
+  deck: [],
+  deckIndex: 0,
+  matches: [],
+  filters: defaultFiltersFor(null),
+};
 
 export const useApp = create<AppState>()(
   persist(
@@ -100,174 +160,235 @@ export const useApp = create<AppState>()(
 
       agePassed: false,
       introSeen: false,
-      authed: false,
       notifPrimed: false,
       passAgeGate: () => set({ agePassed: true }),
       finishIntro: () => set({ introSeen: true }),
-      login: () =>
-        set({
-          authed: true,
-          owner: seedOwner,
-          verification: seedOwner.verification,
-          pets: seedPets,
-          activePetId: seedPets[0].id,
-          matches: seedConversations.map((c) => c.candidateId),
-          conversations: seedConversations,
-          deckIndex: 0,
-          likes: [],
-          blocked: [],
-          reports: [],
-          filters: defaultFilters,
-        }),
-      register: (name) =>
-        set({
-          authed: true,
-          owner: { ...freshOwner, name },
-          verification: "none",
-          pets: [],
-          activePetId: null,
-          matches: [],
-          conversations: [],
-          deckIndex: 0,
-          likes: [],
-          blocked: [],
-          reports: [],
-          filters: defaultFilters,
-        }),
-      logout: () => set({ authed: false }),
-      deleteAccount: () =>
-        set({
-          authed: false,
-          introSeen: false,
-          notifPrimed: false,
-          owner: freshOwner,
-          verification: "none",
-          pets: [],
-          activePetId: null,
-          matches: [],
-          conversations: [],
-          deckIndex: 0,
-          likes: [],
-          blocked: [],
-          reports: [],
-          filters: defaultFilters,
-        }),
       primeNotifications: () => set({ notifPrimed: true }),
 
-      owner: freshOwner,
-      updateOwner: (patch) => set({ owner: { ...get().owner, ...patch } }),
+      authed: false,
+      bootstrapped: false,
+
+      login: async (email, password) => {
+        await api("/api/auth/login", { method: "POST", body: { email, password } });
+        set({ authed: true });
+        await get().loadBootstrap();
+      },
+
+      register: async (name, email, password) => {
+        await api("/api/auth/register", { method: "POST", body: { name, email, password } });
+        set({ authed: true, notifPrimed: false });
+        await get().loadBootstrap();
+      },
+
+      logout: async () => {
+        await api("/api/auth/logout", { method: "POST" }).catch(() => {});
+        set(loggedOutState);
+      },
+
+      deleteAccount: async () => {
+        await api("/api/me", { method: "DELETE" });
+        set({ ...loggedOutState, introSeen: false, notifPrimed: false });
+      },
+
+      loadBootstrap: async () => {
+        try {
+          const data = await api<BootstrapPayload>("/api/bootstrap");
+          const keepActive = data.pets.some((p) => p.id === get().activePetId);
+          const activePetId = keepActive ? get().activePetId : (data.pets[0]?.id ?? null);
+          const activePet = data.pets.find((p) => p.id === activePetId) ?? null;
+          set({
+            authed: true,
+            bootstrapped: true,
+            owner: data.owner,
+            verification: data.owner.verification,
+            settings: data.settings,
+            blockedCount: data.blockedCount,
+            pets: data.pets,
+            activePetId,
+            matches: data.matches,
+            ...(keepActive ? {} : { filters: defaultFiltersFor(activePet) }),
+          });
+          await get().fetchDeck();
+        } catch (e) {
+          if (e instanceof ApiError && e.status === 401) set(loggedOutState);
+          else throw e;
+        }
+      },
+
+      owner: emptyOwner,
       verification: "none",
-      submitVerification: () => set({ verification: "pending" }),
+      settings: defaultSettings,
+      blockedCount: 0,
+
+      updateOwner: async (patch) => {
+        const data = await api<{ owner: Owner }>("/api/me", { method: "PATCH", body: patch });
+        set({ owner: data.owner });
+      },
+
+      setSetting: (key, value) => {
+        set((s) => ({ settings: { ...s.settings, [key]: value } }));
+        api("/api/me", { method: "PATCH", body: { [key]: value } }).catch(() => {});
+      },
+
+      submitVerification: async () => {
+        const data = await api<{ verification: VerificationStatus }>("/api/me/verification", {
+          method: "POST",
+        });
+        set({ verification: data.verification, owner: { ...get().owner, verification: data.verification } });
+      },
 
       pets: [],
       activePetId: null,
-      addPet: (pet) =>
+
+      addPet: async (input) => {
+        const data = await api<{ pet: Pet }>("/api/pets", { method: "POST", body: input });
+        const first = get().pets.length === 0;
         set((s) => ({
-          pets: [...s.pets, pet],
-          activePetId: s.activePetId ?? pet.id,
-        })),
-      updatePet: (id, patch) =>
-        set((s) => ({ pets: s.pets.map((p) => (p.id === id ? { ...p, ...patch } : p)) })),
-      deletePet: (id) =>
-        set((s) => {
-          const pets = s.pets.filter((p) => p.id !== id);
-          return {
-            pets,
-            activePetId: s.activePetId === id ? (pets[0]?.id ?? null) : s.activePetId,
-          };
-        }),
-      setActivePet: (id) => set({ activePetId: id, deckIndex: 0 }),
-
-      deckIndex: 0,
-      likes: [],
-      advanceDeck: () => set((s) => ({ deckIndex: s.deckIndex + 1 })),
-      rewindDeck: () => set((s) => ({ deckIndex: Math.max(0, s.deckIndex - 1) })),
-      likeCurrent: (candidate) => {
-        const s = get();
-        set({ likes: [...s.likes, candidate.id], deckIndex: s.deckIndex + 1 });
-        if (candidate.mutualLike) {
-          set((st) => ({
-            matches: st.matches.includes(candidate.id) ? st.matches : [candidate.id, ...st.matches],
-            conversations: st.conversations.some((c) => c.id === candidate.id)
-              ? st.conversations
-              : [
-                  {
-                    id: candidate.id,
-                    candidateId: candidate.id,
-                    messages: [],
-                    unread: 0,
-                    lastTime: "ახლა",
-                    matchedLabel: "დღეს",
-                  },
-                  ...st.conversations,
-                ],
-          }));
-          return true;
-        }
-        return false;
+          pets: [...s.pets, data.pet],
+          ...(first ? { activePetId: data.pet.id, filters: defaultFiltersFor(data.pet) } : {}),
+        }));
+        if (first) await get().fetchDeck();
       },
-      resetDeck: () => set({ deckIndex: 0 }),
 
-      filters: defaultFilters,
-      setFilters: (patch) => set((s) => ({ filters: { ...s.filters, ...patch }, deckIndex: 0 })),
-      resetFilters: () => set({ filters: defaultFilters, deckIndex: 0 }),
+      updatePet: async (id, patch) => {
+        const data = await api<{ pet: Pet }>(`/api/pets/${id}`, { method: "PATCH", body: patch });
+        set((s) => ({ pets: s.pets.map((p) => (p.id === id ? data.pet : p)) }));
+      },
+
+      deletePet: async (id) => {
+        await api(`/api/pets/${id}`, { method: "DELETE" });
+        const pets = get().pets.filter((p) => p.id !== id);
+        const activePetId = get().activePetId === id ? (pets[0]?.id ?? null) : get().activePetId;
+        set({ pets, activePetId });
+        if (get().activePetId !== null) await get().fetchDeck();
+        else set({ deck: [], deckIndex: 0 });
+      },
+
+      setActivePet: (id) => {
+        const pet = get().pets.find((p) => p.id === id);
+        set({ activePetId: id, filters: defaultFiltersFor(pet), deckIndex: 0 });
+        void get().fetchDeck();
+      },
+
+      deck: [],
+      deckIndex: 0,
+      deckLoading: false,
+
+      fetchDeck: async () => {
+        const { activePetId, filters } = get();
+        if (!activePetId) {
+          set({ deck: [], deckIndex: 0 });
+          return;
+        }
+        set({ deckLoading: true });
+        try {
+          const data = await api<{ candidates: Candidate[] }>(
+            `/api/deck?${deckParams(activePetId, filters)}`,
+          );
+          set({ deck: data.candidates, deckIndex: 0 });
+        } finally {
+          set({ deckLoading: false });
+        }
+      },
+
+      likeCurrent: async (candidate) => {
+        set((s) => ({ deckIndex: s.deckIndex + 1 }));
+        const data = await api<{ matched: boolean; match?: MatchView }>("/api/swipes", {
+          method: "POST",
+          body: { petId: get().activePetId, targetPetId: candidate.id, liked: true },
+        });
+        if (data.matched && data.match) {
+          const match = data.match;
+          set((s) => ({
+            matches: s.matches.some((m) => m.id === match.id)
+              ? s.matches
+              : [match, ...s.matches],
+          }));
+          return match;
+        }
+        return null;
+      },
+
+      nopeCurrent: async (candidate) => {
+        set((s) => ({ deckIndex: s.deckIndex + 1 }));
+        await api("/api/swipes", {
+          method: "POST",
+          body: { petId: get().activePetId, targetPetId: candidate.id, liked: false },
+        }).catch(() => {});
+      },
+
+      rewindDeck: async () => {
+        if (get().deckIndex === 0) return;
+        set((s) => ({ deckIndex: Math.max(0, s.deckIndex - 1) }));
+        await api("/api/swipes/rewind", {
+          method: "POST",
+          body: { petId: get().activePetId },
+        }).catch(() => {});
+      },
+
+      filters: defaultFiltersFor(null),
+      setFilters: (patch) => {
+        set((s) => ({ filters: { ...s.filters, ...patch }, deckIndex: 0 }));
+        void get().fetchDeck();
+      },
 
       matches: [],
-      conversations: [],
-      sendMessage: (conversationId, message) =>
-        set((s) => ({
-          conversations: s.conversations.map((c) =>
-            c.id === conversationId
-              ? { ...c, messages: [...c.messages, message], lastTime: "ახლა" }
-              : c,
-          ),
-        })),
-      markRead: (conversationId) =>
-        set((s) => ({
-          conversations: s.conversations.map((c) =>
-            c.id === conversationId ? { ...c, unread: 0 } : c,
-          ),
-        })),
 
-      blocked: [],
-      reports: [],
-      block: (candidateId) =>
+      sendMessage: async (matchId, input) => {
+        const data = await api<{ message: Message }>(`/api/matches/${matchId}/messages`, {
+          method: "POST",
+          body: input,
+        });
         set((s) => ({
-          blocked: [...new Set([...s.blocked, candidateId])],
-          matches: s.matches.filter((m) => m !== candidateId),
-        })),
-      unblock: (candidateId) =>
-        set((s) => ({ blocked: s.blocked.filter((b) => b !== candidateId) })),
-      report: (candidateId, reason) =>
-        set((s) => ({ reports: [...s.reports, { candidateId, reason }] })),
+          matches: s.matches.map((m) =>
+            m.id === matchId
+              ? { ...m, messages: [...m.messages, data.message], lastTime: "ახლა" }
+              : m,
+          ),
+        }));
+      },
 
-      settings: { notifyMatch: true, notifyMessage: true, notifyTips: false, shareLocation: true },
-      setSetting: (key, value) => set((s) => ({ settings: { ...s.settings, [key]: value } })),
+      markRead: (matchId) => {
+        const match = get().matches.find((m) => m.id === matchId);
+        if (!match || match.unread === 0) return;
+        set((s) => ({
+          matches: s.matches.map((m) => (m.id === matchId ? { ...m, unread: 0 } : m)),
+        }));
+        api(`/api/matches/${matchId}/read`, { method: "POST" }).catch(() => {});
+      },
+
+      block: async (candidatePetId) => {
+        await api("/api/blocks", { method: "POST", body: { targetPetId: candidatePetId } });
+        set((s) => ({
+          matches: s.matches.filter((m) => m.candidate.id !== candidatePetId),
+          deck: s.deck.filter((c) => c.id !== candidatePetId),
+          blockedCount: s.blockedCount + 1,
+        }));
+      },
+
+      report: async (candidatePetId, reason) => {
+        await api("/api/reports", { method: "POST", body: { targetPetId: candidatePetId, reason } });
+      },
     }),
     {
       name: "atexili-store",
       onRehydrateStorage: () => (state) => state?.setHasHydrated(true),
-      partialize: (s) =>
-        Object.fromEntries(
-          Object.entries(s).filter(([k]) => !["hasHydrated"].includes(k)),
-        ) as AppState,
+      // only launch flags + session hints persist locally; data comes from the API
+      partialize: (s) => ({
+        agePassed: s.agePassed,
+        introSeen: s.introSeen,
+        notifPrimed: s.notifPrimed,
+        authed: s.authed,
+        activePetId: s.activePetId,
+      }),
     },
   ),
 );
 
-/** Candidates for the active pet after filters + blocks. */
-export function selectDeck(s: Pick<AppState, "filters" | "blocked">): Candidate[] {
-  return seedCandidates.filter((c) => {
-    if (s.blocked.includes(c.id)) return false;
-    if (c.species !== s.filters.species) return false;
-    if (s.filters.gender !== "all" && c.gender !== s.filters.gender) return false;
-    if (c.distanceKm > s.filters.distanceKm) return false;
-    if (c.ageYears < s.filters.ageRange[0] || c.ageYears > s.filters.ageRange[1]) return false;
-    if (s.filters.verifiedOnly && !c.verified) return false;
-    return true;
-  });
-}
-
-export function getCandidate(id: string): Candidate | undefined {
-  return seedCandidates.find((c) => c.id === id);
+/** Find a candidate we already know about (deck or matches) without a fetch. */
+export function findKnownCandidate(
+  s: Pick<AppState, "deck" | "matches">,
+  petId: string,
+): Candidate | undefined {
+  return s.deck.find((c) => c.id === petId) ?? s.matches.find((m) => m.candidate.id === petId)?.candidate;
 }

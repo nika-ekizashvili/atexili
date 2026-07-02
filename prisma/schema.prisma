@@ -1,0 +1,130 @@
+// Atexili data model.
+// Dev runs on SQLite so a fresh clone works with zero setup; the schema avoids
+// SQLite-only shapes so moving to Postgres is: provider = "postgresql" +
+// DATABASE_URL + `prisma migrate dev`. (JSON-ish fields are encoded strings
+// for SQLite compatibility — promote to Json columns on Postgres.)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id           String  @id @default(cuid())
+  email        String  @unique
+  passwordHash String
+  name         String
+  phone        String?
+  location     String  @default("თბილისი, საქართველო")
+  about        String  @default("")
+  verification String  @default("none") // none | pending | verified
+
+  // settings
+  notifyMatch   Boolean @default(true)
+  notifyMessage Boolean @default(true)
+  notifyTips    Boolean @default(false)
+  shareLocation Boolean @default(true)
+
+  createdAt DateTime @default(now())
+
+  pets         Pet[]
+  swipes       Swipe[]
+  sentMessages Message[] @relation("sender")
+  reports      Report[]
+  blocksMade   Block[]   @relation("blocker")
+  blocksGot    Block[]   @relation("blocked")
+}
+
+model Pet {
+  id        String    @id @default(cuid())
+  ownerId   String
+  owner     User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  name      String
+  species   String // cat | dog | bird | other
+  breed     String
+  gender    String // female | male
+  birthdate DateTime?
+  bio       String    @default("")
+  photos    String    @default("[]") // JSON [{gradient,emoji}] placeholders until real storage
+  vaccinated Boolean  @default(false)
+  tested     Boolean  @default(false)
+  docs       Boolean  @default(false)
+  healthTags String   @default("[]") // JSON string[]
+  intent     String   @default("mate") // mate | available
+  verified   Boolean  @default(false)
+  distanceKm Float    @default(3.2) // mock geo until real location lands
+  /// demo: this pet's owner auto-likes back (scripted mutual match)
+  mutualLike Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  swipesMade     Swipe[] @relation("swiper")
+  swipesReceived Swipe[] @relation("target")
+  matchesA       Match[] @relation("petA")
+  matchesB       Match[] @relation("petB")
+  reports        Report[]
+}
+
+model Swipe {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  petId       String // the pet I'm browsing as
+  pet         Pet      @relation("swiper", fields: [petId], references: [id], onDelete: Cascade)
+  targetPetId String
+  targetPet   Pet      @relation("target", fields: [targetPetId], references: [id], onDelete: Cascade)
+  liked       Boolean
+  createdAt   DateTime @default(now())
+
+  @@unique([petId, targetPetId])
+}
+
+model Match {
+  id        String    @id @default(cuid())
+  petAId    String
+  petA      Pet       @relation("petA", fields: [petAId], references: [id], onDelete: Cascade)
+  petBId    String
+  petB      Pet       @relation("petB", fields: [petBId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+  messages  Message[]
+
+  @@unique([petAId, petBId])
+}
+
+model Message {
+  id           String    @id @default(cuid())
+  matchId      String
+  match        Match     @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  senderUserId String
+  sender       User      @relation("sender", fields: [senderUserId], references: [id], onDelete: Cascade)
+  kind         String    @default("text") // text | image | location
+  text         String?
+  photo        String? // JSON {gradient,emoji} placeholder
+  placeName    String?
+  placeAddress String?
+  createdAt    DateTime  @default(now())
+  readAt       DateTime?
+}
+
+model Report {
+  id          String   @id @default(cuid())
+  reporterId  String
+  reporter    User     @relation(fields: [reporterId], references: [id], onDelete: Cascade)
+  targetPetId String
+  targetPet   Pet      @relation(fields: [targetPetId], references: [id], onDelete: Cascade)
+  reason      String
+  createdAt   DateTime @default(now())
+}
+
+model Block {
+  id            String   @id @default(cuid())
+  blockerId     String
+  blocker       User     @relation("blocker", fields: [blockerId], references: [id], onDelete: Cascade)
+  blockedUserId String
+  blocked       User     @relation("blocked", fields: [blockedUserId], references: [id], onDelete: Cascade)
+  createdAt     DateTime @default(now())
+
+  @@unique([blockerId, blockedUserId])
+}

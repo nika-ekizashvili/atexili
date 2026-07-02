@@ -86,11 +86,11 @@ export default function MyPetsPage() {
               <ChevronRight size={20} className="flex-none text-neutral-300" />
             </div>
             <div className="mt-3.5 flex gap-2.5 border-t border-fill pt-3.5">
-              <Stat n={24} label="მოწონება" />
+              <Stat n={pet.stats?.likes ?? 0} label="მოწონება" />
               <span className="w-px bg-fill" />
-              <Stat n={5} label="დამთხვევა" />
+              <Stat n={pet.stats?.matches ?? 0} label="დამთხვევა" />
               <span className="w-px bg-fill" />
-              <Stat n={3} label="ახალი ჩატი" />
+              <Stat n={pet.stats?.newChats ?? 0} label="ახალი ჩატი" />
             </div>
           </Link>
         ))}

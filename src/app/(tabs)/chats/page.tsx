@@ -5,8 +5,8 @@ import { useApp } from "@/lib/store";
 
 /** Chats tab — conversation list. Empty → nt4. */
 export default function ChatsPage() {
-  const { conversations } = useApp();
-  const hasThreads = conversations.some((c) => c.messages.length > 0);
+  const { matches } = useApp();
+  const hasThreads = matches.some((m) => m.messages.length > 0);
 
   return (
     <div className="flex flex-1 flex-col pt-[calc(env(safe-area-inset-top)+20px)]">

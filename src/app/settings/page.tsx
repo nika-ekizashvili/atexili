@@ -5,12 +5,20 @@ import { useRouter } from "next/navigation";
 import { ChevronRight } from "lucide-react";
 import { BackButton, SectionLabel, Toggle } from "@/components/ui";
 import { useApp } from "@/lib/store";
+import { useBootstrapped } from "@/lib/useBootstrapped";
 import type { ReactNode } from "react";
 
 /** st1 — grouped settings. */
 export default function SettingsPage() {
   const router = useRouter();
-  const { settings, setSetting, blocked, logout } = useApp();
+  const ready = useBootstrapped();
+  const { owner, settings, setSetting, blockedCount, logout } = useApp();
+
+  if (!ready) return null;
+
+  const maskedPhone = owner.phone
+    ? owner.phone.replace(/(\+\d+ \d{3}).*(\d{2})$/, "$1···$2")
+    : "—";
 
   return (
     <div className="flex min-h-dvh flex-col pt-[calc(env(safe-area-inset-top)+20px)]">
@@ -24,8 +32,8 @@ export default function SettingsPage() {
         <section>
           <SectionLabel>ანგარიში</SectionLabel>
           <Card>
-            <Row icon="✉️" label="ელ. ფოსტა" value="nika@example.ge" chevron />
-            <Row icon="📱" label="ტელეფონი" value="+995 599···56" chevron />
+            <Row icon="✉️" label="ელ. ფოსტა" value={owner.email ?? "—"} chevron />
+            <Row icon="📱" label="ტელეფონი" value={maskedPhone} chevron />
             <Row icon="🔑" label="პაროლის შეცვლა" chevron last />
           </Card>
         </section>
@@ -58,7 +66,7 @@ export default function SettingsPage() {
               label="მდებარეობის გაზიარება"
               action={<Toggle small on={settings.shareLocation} onChange={(v) => setSetting("shareLocation", v)} />}
             />
-            <Row icon="🚫" label="დაბლოკილები" value={String(blocked.length)} chevron />
+            <Row icon="🚫" label="დაბლოკილები" value={String(blockedCount)} chevron />
             <Row icon="⬇️" label="ჩემი მონაცემების გადმოწერა" chevron last />
           </Card>
         </section>
@@ -76,8 +84,7 @@ export default function SettingsPage() {
         <div className="flex flex-col gap-2.5 pb-2">
           <button
             onClick={() => {
-              logout();
-              router.replace("/");
+              void logout().then(() => router.replace("/"));
             }}
             className="h-[52px] cursor-pointer rounded-2xl border-[1.5px] border-line-strong bg-surface text-base font-bold text-ink-label transition-colors duration-[160ms] hover:bg-cream"
           >

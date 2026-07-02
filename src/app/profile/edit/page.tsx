@@ -6,13 +6,21 @@ import { useRouter } from "next/navigation";
 import { Camera, ChevronRight, MapPin, Star } from "lucide-react";
 import { BackButton, Chip, FieldLabel, TextInput } from "@/components/ui";
 import { useApp } from "@/lib/store";
+import { useBootstrapped } from "@/lib/useBootstrapped";
 
 /** ed1 — edit owner profile (pre-filled, top-right save). */
 export default function EditOwnerPage() {
   const router = useRouter();
+  const ready = useBootstrapped();
   const { owner, updateOwner, verification } = useApp();
-  const [name, setName] = useState(owner.name);
-  const [about, setAbout] = useState(owner.about);
+  // fields fall back to the store value until edited, so a hard refresh
+  // (bootstrap landing after mount) still pre-fills them
+  const [nameDraft, setNameDraft] = useState<string | null>(null);
+  const [aboutDraft, setAboutDraft] = useState<string | null>(null);
+  const name = nameDraft ?? owner.name;
+  const about = aboutDraft ?? owner.about;
+
+  if (!ready) return null;
 
   return (
     <div className="flex min-h-dvh flex-col pt-[calc(env(safe-area-inset-top)+20px)]">
@@ -21,8 +29,7 @@ export default function EditOwnerPage() {
         <span className="text-[17px] font-extrabold text-ink">პროფილის რედაქტირება</span>
         <button
           onClick={() => {
-            updateOwner({ name: name.trim() || owner.name, about });
-            router.back();
+            void updateOwner({ name: name.trim() || owner.name, about }).then(() => router.back());
           }}
           className="cursor-pointer text-[15px] font-extrabold text-primary-hover"
         >
@@ -44,7 +51,11 @@ export default function EditOwnerPage() {
 
         <div>
           <FieldLabel>სახელი</FieldLabel>
-          <TextInput value={name} onChange={(e) => setName(e.target.value)} className="font-semibold" />
+          <TextInput
+            value={name}
+            onChange={(e) => setNameDraft(e.target.value)}
+            className="font-semibold"
+          />
         </div>
 
         <div>
@@ -62,7 +73,7 @@ export default function EditOwnerPage() {
           <FieldLabel>ჩემ შესახებ</FieldLabel>
           <textarea
             value={about}
-            onChange={(e) => setAbout(e.target.value)}
+            onChange={(e) => setAboutDraft(e.target.value)}
             rows={3}
             className="min-h-24 w-full rounded-[14px] border-[1.5px] border-line-strong bg-surface px-4 py-3.5 text-[15px] font-medium leading-normal text-ink outline-none transition-colors duration-[160ms] focus:border-primary"
           />

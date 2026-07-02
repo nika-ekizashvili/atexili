@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
@@ -10,28 +10,24 @@ import Sheet from "@/components/Sheet";
 import MatchOverlay from "@/components/swipe/MatchOverlay";
 import SwipeCard from "@/components/swipe/SwipeCard";
 import { Button } from "@/components/ui";
-import { selectDeck, useApp } from "@/lib/store";
-import type { Candidate } from "@/lib/types";
+import { useApp } from "@/lib/store";
+import type { Candidate, MatchView } from "@/lib/types";
 
 /** sw1 — the swipe deck, plus sw2 — the pet switcher sheet. */
 export default function DiscoverPage() {
   const router = useRouter();
   const s = useApp();
   const pet = s.pets.find((p) => p.id === s.activePetId) ?? s.pets[0];
-  const deck = useMemo(
-    () => selectDeck({ filters: s.filters, blocked: s.blocked }),
-    [s.filters, s.blocked],
-  );
-  const current: Candidate | undefined = deck[s.deckIndex];
-  const next: Candidate | undefined = deck[s.deckIndex + 1];
+  const current: Candidate | undefined = s.deck[s.deckIndex];
+  const next: Candidate | undefined = s.deck[s.deckIndex + 1];
 
   const [commit, setCommit] = useState<-1 | 1 | null>(null);
-  const [matched, setMatched] = useState<Candidate | null>(null);
+  const [matched, setMatched] = useState<MatchView | null>(null);
   const [switcherOpen, setSwitcherOpen] = useState(false);
 
   useEffect(() => {
-    if (s.hasHydrated && s.authed && s.pets.length === 0) router.replace("/pets");
-  }, [s.hasHydrated, s.authed, s.pets.length, router]);
+    if (s.bootstrapped && s.pets.length === 0) router.replace("/pets");
+  }, [s.bootstrapped, s.pets.length, router]);
 
   if (!pet) return null;
 
@@ -45,10 +41,11 @@ export default function DiscoverPage() {
     setCommit(null);
     if (!current) return;
     if (dir === 1) {
-      const isMatch = s.likeCurrent(current);
-      if (isMatch) setMatched(current);
+      void s.likeCurrent(current).then((match) => {
+        if (match) setMatched(match);
+      });
     } else {
-      s.advanceDeck();
+      void s.nopeCurrent(current);
     }
   };
 
@@ -114,6 +111,8 @@ export default function DiscoverPage() {
               onCommitted={onCommitted}
             />
           </div>
+        ) : s.deckLoading ? (
+          <div className="h-[496px]" />
         ) : (
           <div className="flex h-[496px] flex-col items-center justify-center gap-[18px] px-2.5 text-center">
             <div className="flex h-24 w-24 items-center justify-center rounded-[28px] bg-terracotta-100 text-[44px]">
@@ -137,7 +136,7 @@ export default function DiscoverPage() {
         <div className="flex items-center justify-center gap-4 px-5 pb-2.5 pt-3.5">
           <button
             aria-label="დაბრუნება"
-            onClick={() => s.rewindDeck()}
+            onClick={() => void s.rewindDeck()}
             className="flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full border border-line bg-surface text-rewind shadow-[0_6px_14px_-8px_rgba(82,31,18,0.3)] transition-transform duration-[160ms] hover:-translate-y-0.5 active:scale-95"
           >
             <RotateCcw size={22} strokeWidth={2.4} />
@@ -180,7 +179,6 @@ export default function DiscoverPage() {
                 key={p.id}
                 onClick={() => {
                   s.setActivePet(p.id);
-                  s.setFilters({ species: p.species, gender: p.gender === "female" ? "male" : "female" });
                   setSwitcherOpen(false);
                 }}
                 className={`flex cursor-pointer items-center gap-3.5 rounded-[18px] p-3.5 text-left transition-colors duration-[160ms] ${
@@ -220,7 +218,12 @@ export default function DiscoverPage() {
       {/* match overlay */}
       <AnimatePresence>
         {matched && (
-          <MatchOverlay pet={pet} candidate={matched} onClose={() => setMatched(null)} />
+          <MatchOverlay
+            pet={pet}
+            candidate={matched.candidate}
+            chatId={matched.id}
+            onClose={() => setMatched(null)}
+          />
         )}
       </AnimatePresence>
     </div>
